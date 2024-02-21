@@ -1,5 +1,5 @@
 import { createContext } from "react";
 
-const authContext = createContext(null);
+const modalContext = createContext(null);
 
-export default authContext;
+export default modalContext;
