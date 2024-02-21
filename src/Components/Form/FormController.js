@@ -5,6 +5,14 @@ class FormController{
     constructor(formSchema){
         this.schema = formSchema;
     }
+    getWatchers(key){
+        return this.schema
+        .filter(
+            ({watch})=>{
+                return watch && watch.some((watchKey)=>watchKey===key);
+            }
+        );
+    }
     getValue(key){
         const item = this.schema.find(
             (item)=>{
@@ -23,10 +31,23 @@ class FormController{
             item.ref.value=value;
         }
     }
-    getValues(){
+    getValues(options={}){
         return this.schema.reduce(
-            (result, {key, ref})=>({...result, [key]: this.getValue(key)}),
-            {}
+            (result, {key, validate})=>{
+                const value = this.getValue(key);
+                const validation = validate({key, value}, this);
+                if(options?.requireSetMessage){
+                    this.setMessage()(key, validation.message);
+                }
+                return {
+                    ...result, 
+                    [key]: {
+                        value,
+                        validation,
+                    }
+                }
+            }
+            ,{}
         );
     }
     setMessage(setMessages){
@@ -69,6 +90,12 @@ class FormController{
                     const value = this.getValue(key);
                     const {result, message} = validate({key, value}, this);
                     this.setMessage(setMessages)(key, message);
+                    this.getWatchers(key).forEach(
+                        ({key, validate})=>{
+                            const {result, message} = validate({key, value: this.getValue(key)}, this);
+                            this.setMessage(setMessages)(key, message);
+                        }
+                    )
                 }
                 const addComponent = (
                     (add)=>{

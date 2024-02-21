@@ -1,5 +1,5 @@
 import React from "react"
-import { LaunchButton, Input } from "../../../Components";
+import { LaunchButton, Input } from "../../Components";
 
 export default [
     {
@@ -163,6 +163,7 @@ export default [
                 result: false,
                 message: "비밀번호가 일치하지 않습니다."
             }
-        }
+        },
+        watch: ["password"]
     }
 ]

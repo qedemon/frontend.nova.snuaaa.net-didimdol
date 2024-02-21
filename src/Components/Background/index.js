@@ -8,16 +8,33 @@ const BackgroundCSS = css`
     width: 100%;
     height: 100%;
     padding: 0px;
-    &>*{
-        position: fixed;
-    }
     &>.background{
+        position: fixed;
         width: 100%;
         height: 100%;
         background: rgba(245, 224, 213, 1);
+        &>*{
+            position: fixed;
+        }
+        &>.Upper{
+            top: 0px;
+        }
+        &>.Lower{
+            bottom: 0px;
+        }
+        &>.Left{
+            left: 0px;
+        }
+        &>.Right{
+            right: 0px;
+        }
+        &>.Center{
+            left: 50%;
+            transform: translateX(-50%);
+        }
     }
     &>div.content{
-        position: relative;
+        position: fixed;
         width: 100%;
         height: 100%;
 
@@ -27,6 +44,9 @@ const BackgroundCSS = css`
         justify-content: center;
         align-items: center;
         flex-direction: column;
+
+        overflow-y: auto;
+        overflow-x: hidden;
     }
     &>.Upper{
         top: 0px;
@@ -79,7 +99,7 @@ function Background(Decorations){
     return ({children})=>{
         return (
             <div css={BackgroundCSS}>
-                <div className="background"/>
+                <div className="background">
                 {
                     Decorations.map(
                         ({position:{className}, components: C}, index)=>{
@@ -89,6 +109,8 @@ function Background(Decorations){
                         }
                     )
                 }
+                </div>
+                
                 <div className="content">
                     {children}
                 </div>
