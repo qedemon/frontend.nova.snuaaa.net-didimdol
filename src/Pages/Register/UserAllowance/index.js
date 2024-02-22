@@ -42,7 +42,7 @@ const UserAllowance = forwardRef(
         )
         const onButtonClicked = useCallback(
             (e)=>{
-                modalController.setChildren(AllowancePage);
+                modalController.setChildren({component: AllowancePage});
                 modalController.open();
             },
             [modalController]

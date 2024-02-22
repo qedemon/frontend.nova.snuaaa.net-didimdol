@@ -41,9 +41,9 @@ function Modal({controller, className}){
                         }
                     )(!children||children.length===0?[defaultComponent]:children)
                     .map(
-                        (Component, key)=>{
+                        ({component: Component, props={}}, key)=>{
                             return (
-                                <Component key={key} controller={controller}/>
+                                <Component key={key} controller={controller} {...props}/>
                             )
                         }
                     )

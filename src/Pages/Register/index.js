@@ -1,11 +1,14 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { Background } from "./Components";
 import { LaunchButton, RocketContentContainer } from "../../Components"
 import {Form} from "../../Components";
 import FormSchema from "./FormSchema";
+import {useContext as useModalController} from "../../Context/Modal";
+import DepositPage from "./DepositPage";
 
 function Register(props){
     const formController = useRef();
+    const modalController = useModalController().current;
     const onSubmit = async ()=>{
         const formResult = await formController.current.getValues({requireSetMessage: true, requireSetValidation: true});
         const [values, validation] = Object.entries(formResult)
@@ -16,12 +19,24 @@ function Register(props){
                         ...data,
                         [key]: value
                     },
-                    validationResult && validation && asyncValidation
+                    validationResult && validation.result && asyncValidation.result
                 ]
             },
             [{}, true]
         );
-        console.log(values, validation);
+        if(validation || true){
+            modalController.setChildren(
+                {
+                    component: DepositPage,
+                    props: {
+                        onDeposit: ()=>{
+                            console.log("deposit");
+                        }
+                    }
+                }
+            );
+            modalController.open();
+        }
     }
     return (
         <Background>
