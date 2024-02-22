@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FormItemContainer } from "./Components";
 
 class FormController{
@@ -21,42 +21,38 @@ class FormController{
         );
         return item?.ref?.value;
     }
-    getValues(options={}){
+    async getValues(options={}){
         return this.schema.reduce(
-            (result, {key, validate})=>{
+            async (last, {key, validate, asyncValidate})=>{
+                const result = await last;
                 const value = this.getValue(key);
                 const validation = validate({key, value}, this);
+                const asyncValidation = await ((typeof(asyncValidate)==="function")?asyncValidate({key, value}, this):Promise.resolve({result: true}));
                 if(options?.requireSetMessage){
-                    this.setMessage()(key, validation.message);
+                    this.setMessage(key, validation.message || asyncValidation.message);
+                }
+                if(options?.requireSetValidation){
+                    this.setValidation(key, validation.result && asyncValidation.result);
                 }
                 return {
                     ...result, 
                     [key]: {
                         value,
                         validation,
+                        asyncValidation
                     }
                 }
             }
-            ,{}
+            , Promise.resolve({})
         );
     }
-    setMessage(setMessages){
-        if(typeof(setMessages) === "function"){
-            this._setMessagesHook=setMessages;
-        }
-        return (key, message)=>{
-            this.setField(key, "message", message);
-            this._setMessagesHook((messages)=>({...messages, [key]: message}));
-        }
+    setMessage(key, message){
+        this.setField(key, "message", message);
+        this.update();
     }
-    setValidation(setValidations){
-        if(typeof(setValidations) === "function"){
-            this._setValidationsHook=setValidations;
-        }
-        return (key, validation)=>{
-            this.setField(key, "validation", validation);
-            this._setValidationsHook((validations)=>({...validations, [key]: validation}))
-        }
+    setValidation(key, validation){
+        this.setField(key, "validation", validation);
+        this.update();
     }
     getField(key, field){
         const item = this.schema.find(
@@ -73,8 +69,21 @@ class FormController{
             }
         );
         if(item){
-            item[field]=value;
+            if(typeof value === "function"){
+                item[field] = value(item[field]);
+            }
+            else
+                item[field]=value;
+            if(field!=="ref"){
+                this.update();
+            }
         }
+    }
+    _setSetSchema(setSchema){
+        this._setSchema=setSchema;
+    }
+    update(){
+        this._setSchema([...this.schema]);
     }
     updateRef(key){
         return (ref)=>{
@@ -82,27 +91,42 @@ class FormController{
         }
     }
     render(){
-        const [messages, setMessages] = useState({});
-        const [validations, setValidations] = useState({});
-        return this.schema.map(
-            ({key, validate, component: Component, property, add})=>{
+        const [schema, setSchema] = useState(this.schema);
+        this._setSetSchema(setSchema);
+        return schema.map(
+            ({key, validate, validation, message, component: Component, handlers, property, add})=>{
                 const onChange = (e)=>{
                     const value = this.getValue(key);
                     const {result, message} = validate({key, value}, this);
-                    this.setMessage(setMessages)(key, message);
-                    this.setValidation(setValidations)(key, result);
+                    this.setMessage(key, message);
+                    this.setValidation(key, result);
                     this.getWatchers(key).forEach(
                         ({key, validate})=>{
-                            const {result, message} = validate({key, value: this.getValue(key)}, this);
-                            this.setMessage(setMessages)(key, message);
-                            this.setValidation(setValidations)(key, result);
+                            const value = this.getValue(key);
+                            const {result, message} = validate({key, value}, this);
+                            this.setMessage(key, message);
+                            this.setValidation(key, result);
                         }
-                    )
+                    );
                 }
+                
+                const formHandlers = Object.entries(handlers??{}).reduce(
+                    (result, [handlerKey, handler])=>{
+                        return {
+                            ...result,
+                            [handlerKey]: ()=>{
+                                const value = this.getValue(key);
+                                handler({key, value}, this);
+                            }
+                        }
+                    },
+                    {}
+                );
+
                 return (
                     <FormItemContainer key={key} className={!add?"without-add":""}>
-                        <Component className="input" valid={validations[key]} ref={this.updateRef(key)} onChange={onChange} {...property}/>
-                        <div className="message">{messages[key]??'\u00A0'}</div>
+                        <Component className="input" valid={validation} ref={this.updateRef(key)} onChange={onChange} {...formHandlers} {...property}/>
+                        <div className="message">{message??'\u00A0'}</div>
                     </FormItemContainer>
                 )
             }

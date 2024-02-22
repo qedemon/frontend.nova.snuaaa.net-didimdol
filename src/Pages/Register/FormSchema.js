@@ -2,6 +2,29 @@ import React from "react"
 import { LaunchButton, Input } from "../../Components";
 import UserAllowance from "./UserAllowance";
 
+import Connection from "../../Utility/Connection";
+
+async function checkId(value){
+    const {data} = await Connection.get(`/user/checkId/${value}`);
+    if(data){
+        const {check, error} = data;
+        if(error){
+            return {
+                available: false,
+                message: error
+            }
+        }
+        return {
+            available: check?.check,
+            message: check.message
+        }
+    }
+    return {
+        available: false,
+        message: "연결 실패"
+    }
+}
+
 export default [
     {
         key: "name",
@@ -9,7 +32,7 @@ export default [
         component: Input,
         property: {
             type: "text",
-            placeholder: "이름"
+            placeholder: "이름",
         },
         validate: ({value})=>{
             return (value.length>0)?
@@ -104,7 +127,8 @@ export default [
         component: Input,
         property: {
             type: "text",
-            placeholder: "아이디"
+            placeholder: "아이디",
+            sideButtonLabel: "중복체크"
         },
         validate: ({value})=>{
             return (value.length>0)?
@@ -116,15 +140,18 @@ export default [
                 message: "적어도 한 글자 이상 입력해주세요."
             }
         },
-        add: {
-            component: LaunchButton,
-            property: {
-                children: "아이디 확인",
-                handlers: {
-                    onClick: ({key, value}, controller)=>{
-                        controller.setMessage()(key, value);
-                    }
-                }
+        asyncValidate: async ({value})=>{
+            const {available, message} = await checkId(value);
+            return {
+                result: available,
+                message: message
+            }
+        },
+        handlers: {
+            onSideButtonClick: async ({key, value}, controller)=>{
+                const {available, message} = await checkId(value);
+                controller.setMessage(key, message);
+                controller.setField(key, "validation", available);
             }
         }
     },
@@ -134,7 +161,8 @@ export default [
         component: Input,
         property: {
             type: "password",
-            placeholder: "비밀번호"
+            placeholder: "비밀번호",
+            sideButtonLabel: "Show"
         },
         validate: ({value})=>{
             return (value.length>0)?
@@ -145,6 +173,23 @@ export default [
                 result: false,
                 message: "적어도 한글자는 입력해 주세요."
             }
+        },
+        handlers: {
+            onSideButtonClick: ({key, value}, controller)=>{
+                controller.setField(key, "property", (property)=>{
+                    return (property.type==="password")?
+                        {
+                            ...property,
+                            type: "text",
+                            sideButtonLabel: "Hide"
+                        }:
+                        {
+                            ...property,
+                            type: "password",
+                            sideButtonLabel: "Show"
+                        }
+                });
+            }
         }
     },
     {
@@ -153,7 +198,8 @@ export default [
         component: Input,
         property: {
             type: "password",
-            placeholder: "비밀번호 확인"
+            placeholder: "비밀번호 확인",
+            sideButtonLabel: "Show"
         },
         validate: ({value}, controller)=>{
             return (value === controller.getValue("password"))?
@@ -165,7 +211,24 @@ export default [
                 message: "비밀번호가 일치하지 않습니다."
             }
         },
-        watch: ["password"]
+        watch: ["password"],
+        handlers: {
+            onSideButtonClick: ({key, value}, controller)=>{
+                controller.setField(key, "property", (property)=>{
+                    return (property.type==="password")?
+                        {
+                            ...property,
+                            type: "text",
+                            sideButtonLabel: "Hide"
+                        }:
+                        {
+                            ...property,
+                            type: "password",
+                            sideButtonLabel: "Show"
+                        }
+                });
+            }
+        }
     },
     {
         key: "allowance",

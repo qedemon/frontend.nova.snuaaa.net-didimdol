@@ -17,9 +17,14 @@ const CheckBoxCSS = css`
         letter-spacing: 0em;
         text-align: left;
     }
-`
+    text-decoration: underline;
+    &.valid{
+        text-decoration: none;
+    }
+`;
+
 const CheckBox = forwardRef(
-    ({children, className, onChange, ...props}, ref)=>{
+    ({children, className, onChange, valid, ...props}, ref)=>{
         const delegateRef = useRef({});
         const [checked, setChecked] = useState(false);
         delegateRef.current.checked=checked;
@@ -56,9 +61,8 @@ const CheckBox = forwardRef(
             },
             [checked]
         )
-
         return (
-            <div css={CheckBoxCSS} className={className} onClick={onClick}>
+            <div css={CheckBoxCSS} className={`${className} ${valid===true?"valid":valid===false?"invalid":""}`} onClick={onClick}>
                 {checked?(<Checked/>):(<UnChecked/>)}
                 <label>{children}</label>
             </div>

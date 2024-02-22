@@ -6,8 +6,22 @@ import FormSchema from "./FormSchema";
 
 function Register(props){
     const formController = useRef();
-    const onSubmit = ()=>{
-        console.log(formController.current.getValues({requireSetMessage: true}));
+    const onSubmit = async ()=>{
+        const formResult = await formController.current.getValues({requireSetMessage: true, requireSetValidation: true});
+        const [values, validation] = Object.entries(formResult)
+        .reduce(
+            ([data, validationResult], [key, {value, validation, asyncValidation}])=>{
+                return [
+                    {
+                        ...data,
+                        [key]: value
+                    },
+                    validationResult && validation && asyncValidation
+                ]
+            },
+            [{}, true]
+        );
+        console.log(values, validation);
     }
     return (
         <Background>
