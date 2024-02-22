@@ -5,6 +5,12 @@ import UserAllowance from "./UserAllowance";
 import Connection from "../../Utility/Connection";
 
 async function checkId(value){
+    if(value.length===0){
+        return {
+            available: false,
+            message: "최소한 한 글자는 입력해주세요"
+        }
+    }
     const {data} = await Connection.get(`/user/checkId/${value}`);
     if(data){
         const {check, error} = data;
