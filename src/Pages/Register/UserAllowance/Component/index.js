@@ -19,14 +19,13 @@ const CheckBoxCSS = css`
     }
 `
 const CheckBox = forwardRef(
-    ({children, className, ...props}, ref)=>{
+    ({children, className, onChange, ...props}, ref)=>{
         const delegateRef = useRef({});
         const [checked, setChecked] = useState(false);
-        delegateRef.current.value=checked;
+        delegateRef.current.checked=checked;
         
         const onClick = useCallback(
             ()=>{
-                console.log("clicked");
                 setChecked((checked)=>!checked);
             },
             [setChecked]
@@ -38,13 +37,29 @@ const CheckBox = forwardRef(
                     (typeof(ref)==="function")?ref:(target)=>{
                         ref.current=target;
                     }
-                )(delegateRef.current)
+                )(delegateRef.current);
             },
             [delegateRef.current, ref]
         )
+
+        const onCheckedChange = useCallback(
+            ()=>{
+                if(typeof(onChange)==="function"){
+                    onChange();
+                }
+            },
+            [onChange]
+        )
+        useEffect(
+            ()=>{
+                onCheckedChange();
+            },
+            [checked]
+        )
+
         return (
             <div css={CheckBoxCSS} className={className} onClick={onClick}>
-                {checked?(<UnChecked/>):(<Checked/>)}
+                {checked?(<Checked/>):(<UnChecked/>)}
                 <label>{children}</label>
             </div>
         )

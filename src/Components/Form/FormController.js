@@ -21,16 +21,6 @@ class FormController{
         );
         return item?.ref?.value;
     }
-    setValue(key, value){
-        const item = this.schema.find(
-            (item)=>{
-                return item.key===key;
-            }
-        );
-        if(item && item.ref){
-            item.ref.value=value;
-        }
-    }
     getValues(options={}){
         return this.schema.reduce(
             (result, {key, validate})=>{

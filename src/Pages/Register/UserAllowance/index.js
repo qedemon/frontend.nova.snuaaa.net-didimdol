@@ -4,7 +4,7 @@ import { useContext as useModalController } from "../../../Context/Modal";
 import AllowancePage from "./AllowancePage";
 
 const UserAllowance = forwardRef(
-    ({valid, onClick, className, ...props}, ref)=>{
+    ({valid, onClick, onChange, className, ...props}, ref)=>{
         const modalController = useModalController().current;
         const CheckBoxRef = useRef();
         const delegate = useRef(
@@ -12,7 +12,7 @@ const UserAllowance = forwardRef(
                 ref: CheckBoxRef,
                 get value(){
                     return this.ref?.current?.checked;
-                }
+                },
             }
         );
         useEffect(
@@ -32,6 +32,14 @@ const UserAllowance = forwardRef(
             },
             [onClick]
         )
+        const onCheckBoxChanged = useCallback(
+            ()=>{
+                if(typeof(onChange) === "function"){
+                    onChange();
+                }
+            },
+            [onChange]
+        )
         const onButtonClicked = useCallback(
             (e)=>{
                 modalController.setChildren(AllowancePage);
@@ -41,7 +49,7 @@ const UserAllowance = forwardRef(
         )
         return (
             <UserAllowanceContainer className={className}>
-                <CheckBox ref={CheckBoxRef} onClick={onCheckBoxClick} className="left">개인정보 수집 및 이용동의(필수)</CheckBox>
+                <CheckBox ref={CheckBoxRef} onClick={onCheckBoxClick} onChange={onCheckBoxChanged} className="left">개인정보 수집 및 이용동의(필수)</CheckBox>
                 <MoreButton className="right" onClick={onButtonClicked}>{">>"}</MoreButton>
             </UserAllowanceContainer>
         )
