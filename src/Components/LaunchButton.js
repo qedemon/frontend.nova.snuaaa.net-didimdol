@@ -22,7 +22,7 @@ const LaunchButtonCSS = css`
 `;
 function LaunchButton({children, ...props}){
     return (
-        <button css={LaunchButtonCSS} {...props}>
+        <button type="button" css={LaunchButtonCSS} {...props}>
             {children}
         </button>
     )

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { ModalLayer } from "./Components";
 
 function defaultComponent({controller, ...props}){
@@ -17,14 +17,29 @@ function defaultComponent({controller, ...props}){
 
 function Modal({controller, className}){
     const [children, setChildren] = useState([]);
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
+
     (typeof(controller?.setSetChildren)==="function") && controller.setSetChildren(setChildren);
     (typeof(controller?.setSetOpen)==="function") && controller.setSetOpen(setOpen);
+
+    const onEdgeClick = useCallback(
+        ()=>{
+            controller.close();
+        },
+        [controller]
+    )
+
     return (
-        <ModalLayer className={`${className} ${open?"open":"close"}`}>
+        <ModalLayer className={`${className} ${open?"open":"close"}`} onEdgeClick={onEdgeClick}>
             {
                 open?
-                    (!children||children.length===0?[defaultComponent]:children)
+                    (
+                        (children)=>{
+                            return Array.isArray(children)?
+                                children:
+                                [children]
+                        }
+                    )(!children||children.length===0?[defaultComponent]:children)
                     .map(
                         (Component, key)=>{
                             return (

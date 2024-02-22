@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import authContext from "./Context"; 
+import modalContext from "./Context"; 
 
 function _useContext(){
-    return useContext(authContext);
+    return useContext(modalContext);
 }
 
 export default _useContext;

@@ -5,26 +5,28 @@ import {css} from "@emotion/react";
 const FormItemContainerCSS = css`
     display: grid;
     grid-template-areas:
-        "input add"
-        "message .";
-    grid-template-columns: 7fr 2fr;
-    grid-column-gap: 16px;
-    &.without-add{
-        grid-template-columns: 1fr 0fr;
-    }
-    &>.label{
-        grid-area: label;
-    }
+        "input"
+        "message";
+    grid-template-columns: 1fr;
+    grid-column-gap: 5px;
     &>.input{
         grid-area: input;
     }
-    &>.add{
-        grid-area: add;
-    }
     &>.message{
         grid-area: message;
+
+        font-family: Poppins;
+        font-size: 10px;
+        font-weight: 500;
+        line-height: 15px;
+        letter-spacing: 0em;
+        text-align: left;
+        color: rgba(151, 151, 151, 1);
+
+        text-indent: 10px;
+
     }
-    margin: 10px 0px;
+    margin: 9px 0px;
     &:first-of-type{
         margin-top: 0px;
     }

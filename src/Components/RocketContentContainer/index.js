@@ -3,7 +3,7 @@ import React, {forwardRef} from "react";
 import {css} from "@emotion/react";
 import { ReactComponent as Rocket } from "./Assets/Rocket.svg";
 
-const rocketOff = 80;
+const rocketOff = 95;
 const rocketRatio = 250/375;
 
 const ContentContainerCSS = css`
@@ -16,10 +16,9 @@ const ContentContainerCSS = css`
         &>.title{
             position: absolute;
             width: 100%;
-            aspect-ratio: 1 / 1;
             left: 34px;
             top: 16px;
-            transform: translateY(-${rocketRatio*rocketOff}%);
+            transform: translateY( calc(-100% - 8px) );
             &>div{
                 width: max-content;
                 &>*{
@@ -31,6 +30,7 @@ const ContentContainerCSS = css`
                     letter-spacing: 0em;
                     text-align: left;
                 }
+                padding-bottom: 14px;
             }
         }
         &>.rocket{
@@ -69,12 +69,12 @@ function RocketContentContainer({children, ...props}){
     return (
         <div css={ContentContainerCSS} {...props}>
             <div>
+                <Rocket className="rocket"/>
                 <div className="title">
                     <div>
                         {titleChildren}
                     </div>
                 </div>
-                <Rocket className="rocket"/>
                 <div className="content">
                     <div>
                         {contentChildren}

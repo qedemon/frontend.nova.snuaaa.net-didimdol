@@ -3,10 +3,13 @@ class ModalController{
 
     }
     setSetChildren(setChildren){
-        this.setChildren=setChildren;
+        this._setChildren=setChildren;
     }
     setSetOpen(setOpen){
         this.setOpen=setOpen;
+    }
+    setChildren(children){
+        this._setChildren&&this._setChildren(()=>children);
     }
     open(){
         this.setOpen && this.setOpen(true);

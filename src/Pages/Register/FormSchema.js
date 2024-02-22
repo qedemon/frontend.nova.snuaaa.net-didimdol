@@ -1,5 +1,6 @@
 import React from "react"
 import { LaunchButton, Input } from "../../Components";
+import UserAllowance from "./UserAllowance";
 
 export default [
     {
@@ -165,5 +166,22 @@ export default [
             }
         },
         watch: ["password"]
+    },
+    {
+        key: "allowance",
+        label: "개인정보동의",
+        component: UserAllowance,
+        property: {
+        },
+        validate: ({value}, controller)=>{
+            return value?
+            {
+                result: true
+            }:
+            {
+                result: false,
+                message: "개인 정보 활용 동의에 체크해 주세요."
+            }
+        },
     }
 ]

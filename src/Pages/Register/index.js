@@ -15,7 +15,7 @@ function Register(props){
                 <p className="title">AAA 2024</p>
                 <p className="title">신입생 가입폼</p>
                 <Form ref={formController} formSchema={FormSchema} className="content"/>
-                <LaunchButton onClick={onSubmit} className="content">제출하기</LaunchButton>
+                <LaunchButton onClick={onSubmit} className="content">Sign Up</LaunchButton>
             </RocketContentContainer>
         </Background>
     )
