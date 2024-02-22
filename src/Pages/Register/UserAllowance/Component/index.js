@@ -1,25 +1,71 @@
 /** @jsxImportSource @emotion/react */
-import React, {forwardRef} from "react";
+import React, {forwardRef, useCallback, useEffect, useRef, useState} from "react";
 import {css} from "@emotion/react";
+import {ReactComponent as UnChecked} from "../Assets/CheckBox.svg";
+import {ReactComponent as Checked} from "../Assets/CheckBoxChecked.svg";
+import {ReactComponent as More} from "../Assets/moreButton.svg";
 
 const CheckBoxCSS = css`
-
-`;
+    display: flex;
+    align-items: center;
+    &>label{
+        margin-left: 8px;
+        font-family: Poppins;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 21px;
+        letter-spacing: 0em;
+        text-align: left;
+    }
+`
 const CheckBox = forwardRef(
     ({children, className, ...props}, ref)=>{
+        const delegateRef = useRef({});
+        const [checked, setChecked] = useState(false);
+        delegateRef.current.value=checked;
+        
+        const onClick = useCallback(
+            ()=>{
+                console.log("clicked");
+                setChecked((checked)=>!checked);
+            },
+            [setChecked]
+        )
+        
+        useEffect(
+            ()=>{
+                (
+                    (typeof(ref)==="function")?ref:(target)=>{
+                        ref.current=target;
+                    }
+                )(delegateRef.current)
+            },
+            [delegateRef.current, ref]
+        )
         return (
-            <label className={className}>
-                <input ref={ref} css={CheckBoxCSS} type="checkbox" {...props}></input>
-                {children}
-            </label>
+            <div css={CheckBoxCSS} className={className} onClick={onClick}>
+                {checked?(<UnChecked/>):(<Checked/>)}
+                <label>{children}</label>
+            </div>
         )
     }
 )
 export {CheckBox}
 
+const MoreButtonCSS = css`
+
+`;
+function MoreButton({className, ...props}){
+    return (
+        <More css={MoreButtonCSS} className={className} {...props}/>
+    )
+}
+export {MoreButton}
+
 const UserAllowanceContainerCSS = css`
     width: 100%;
     display: flex;
+    padding: 0px 20px;
     &>.left{
         flex-grow: 1;
     }

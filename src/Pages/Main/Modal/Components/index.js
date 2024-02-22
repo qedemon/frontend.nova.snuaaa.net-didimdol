@@ -10,6 +10,7 @@ const ModalLayerCSS = css`
     width: 100%;
     height: 100%;
     display: none;
+    position: fixed;
     &.open{
         display: block;
     }
