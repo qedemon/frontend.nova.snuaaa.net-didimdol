@@ -47,7 +47,6 @@ const MessageBoxHeaderCSS = css`
 
     &>H1{
         width: 235px;
-        font-family: Poppins;
         font-size: 18px;
         font-weight: 400;
         line-height: 27px;
@@ -61,7 +60,6 @@ const MessageBoxHeaderCSS = css`
     &>p{
         margin: 0px;
         margin-top: 16px;
-        font-family: Poppins;
         font-size: 12px;
         font-weight: 400;
         line-height: 18px;

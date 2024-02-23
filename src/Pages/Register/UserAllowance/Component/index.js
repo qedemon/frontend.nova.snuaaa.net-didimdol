@@ -10,7 +10,6 @@ const CheckBoxCSS = css`
     align-items: center;
     &>label{
         margin-left: 8px;
-        font-family: Poppins;
         font-size: 14px;
         font-weight: 400;
         line-height: 21px;

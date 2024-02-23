@@ -12,7 +12,6 @@ import { ReactComponent as LowerCenter } from "../Assets/LowerCenter.svg";
 
 const LogoMessageCSS = css`
     &>p{
-        font-family: Poppins;
         font-size: 10px;
         font-weight: 300;
         line-height: 15px;

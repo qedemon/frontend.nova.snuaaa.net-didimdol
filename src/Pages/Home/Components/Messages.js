@@ -3,7 +3,6 @@ import React, {forwardRef} from "react";
 import {css} from "@emotion/react";
 
 const TitleMessageCSS = css`
-    font-family: Poppins;
     font-size: 24px;
     font-weight: 800;
     line-height: 36px;
@@ -25,7 +24,6 @@ function TitleMessage({children, ...props}){
 export {TitleMessage}
 
 const LinkMessageCSS = css`
-    font-family: Poppins;
     font-size: 14px;
     font-weight: 700;
     line-height: 21px;
@@ -50,7 +48,6 @@ function LinkMessage({children, props}){
 export {LinkMessage}
 
 const LogoMessageCSS = css`
-    font-family: Poppins;
     font-size: 10px;
     font-weight: 300;
     line-height: 15px;

@@ -11,7 +11,6 @@ const CopyBodyCSS = css`
     gap: 16px;
     &>.content{
         &>*{
-            font-family: Poppins;
             font-size: 16px;
             font-weight: 500;
             line-height: 24px;

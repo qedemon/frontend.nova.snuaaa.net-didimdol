@@ -9,8 +9,7 @@ const LaunchButtonCSS = css`
     gap: 12px;
 
     background: rgba(243, 145, 134, 1);
-
-    font-family: Inter;
+     
     font-size: 16px;
     font-weight: 600;
     line-height: 19px;

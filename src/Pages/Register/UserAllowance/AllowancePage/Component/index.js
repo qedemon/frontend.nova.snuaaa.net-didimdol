@@ -21,7 +21,6 @@ const AllowancePageContainerCSS = css`
         margin-left: 32px;
         margin-top: 32px;
         &>*{
-            font-family: Inter;
             font-size: 16px;
             font-weight: 400;
             line-height: 19px;

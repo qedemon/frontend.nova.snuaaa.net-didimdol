@@ -23,7 +23,6 @@ const ContentContainerCSS = css`
                 width: max-content;
                 &>*{
                     margin: 0px;
-                    font-family: Poppins;
                     font-size: 24px;
                     font-weight: 800;
                     line-height: 36px;

@@ -15,7 +15,6 @@ const FormItemContainerCSS = css`
     &>.message{
         grid-area: message;
 
-        font-family: Poppins;
         font-size: 10px;
         font-weight: 500;
         line-height: 15px;
