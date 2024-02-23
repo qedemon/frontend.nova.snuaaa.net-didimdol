@@ -35,7 +35,7 @@ function Register(props){
             },
             [{}, true]
         );
-        if(validation || true){
+        if(validation){
             modalController.setChildren(
                 {
                     component: DepositPage,
