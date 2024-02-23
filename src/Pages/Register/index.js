@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useCallback, useContext, useRef } from "react";
 import { Background } from "./Components";
 import { LaunchButton, RocketContentContainer } from "../../Components"
 import {Form} from "../../Components";
@@ -6,10 +6,20 @@ import FormSchema from "./FormSchema";
 import {useContext as useModalController} from "../../Context/Modal";
 import DepositPage from "./DepositPage";
 import DepositSubmitPage from "./DepositSubmitPage";
+import { useNavigate } from "react-router-dom";
 
 function Register(props){
+    const navigate = useNavigate();
     const formController = useRef();
     const modalController = useModalController().current;
+    const register = useCallback(
+        async (userInfo)=>{
+            console.log("register", userInfo);
+            modalController.close();
+            navigate("/UserInfo");
+        },
+        []
+    )
     const onSubmit = async ()=>{
         const formResult = await formController.current.getValues({requireSetMessage: true, requireSetValidation: true});
         const [values, validation] = Object.entries(formResult)
@@ -36,9 +46,7 @@ function Register(props){
                                     component: DepositSubmitPage,
                                     props: {
                                         onSubmit: (value)=>{
-                                            console.log(
-                                                {...values, "depositor": value}
-                                            )
+                                            register({...values, depositor: value})
                                         }
                                     }
                                 }

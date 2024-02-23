@@ -13,7 +13,9 @@ function Register(props){
                 <Link to="/Register">
                     <LaunchButton>가입하기</LaunchButton>
                 </Link>
-                <LaunchButton>가입번호 조회</LaunchButton>
+                <Link to="/UserInfo">
+                    <LaunchButton>가입번호 조회</LaunchButton>
+                </Link>
             </ContentContainer>
         </Background>
     )

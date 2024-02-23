@@ -1,9 +1,10 @@
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { LaunchButton, Input } from "../../../Components";
 import { MessageBoxBody, MessageBoxContainer, MessageBoxFooter, MessageBoxHeader } from "../Components/MessageBox/Components";
 
 function DepositSubmitPage({controller, onSubmit, ...props}){
     const inputRef = useRef();
+    const [message, setMessage] = useState("");
     const onClose = useCallback(
         ()=>{
             controller.close();
@@ -12,9 +13,15 @@ function DepositSubmitPage({controller, onSubmit, ...props}){
     )
     const onSubmitHandler = useCallback(
         ()=>{
-            if(typeof(onSubmit)==="function"){
-                onSubmit(inputRef.current.value);
-            }    
+            const value = inputRef.current.value;
+            if(value.length===0){
+                setMessage("이름은 한글자 이상 입력해주세요.");
+            }
+            else{
+                if(typeof(onSubmit)==="function"){
+                    onSubmit(inputRef.current.value);
+                }    
+            }
         },
         [onSubmit]
     )
@@ -30,6 +37,7 @@ function DepositSubmitPage({controller, onSubmit, ...props}){
             </MessageBoxHeader>
             <MessageBoxBody>
                 <Input ref={inputRef} placeholder="김이름"/>
+                <label>{message??"\u00A0"}</label>
             </MessageBoxBody>
             <MessageBoxFooter>
                 <LaunchButton onClick={onSubmitHandler}>
