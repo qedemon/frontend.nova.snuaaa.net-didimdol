@@ -19,7 +19,9 @@ const InputCSS = css`
         border-radius: 5px;
         background: linear-gradient(0deg, #F6F6F6, #F6F6F6),
         linear-gradient(0deg, #E8E8E8, #E8E8E8);
-    
+        &[type="password"]{
+            font-family: Poppins;
+        }
         &.valid{
             border: 1px solid rgba(153, 191, 64, 1);
             outline-color: rgba(153, 191, 64, 1);

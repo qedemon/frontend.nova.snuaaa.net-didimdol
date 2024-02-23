@@ -11,6 +11,7 @@ const ModalContainerCSS = css`
     position: relative;
     border-radius: 10px;
     overflow: hidden;
+    background-color: white;
 `
 
 const AllowancePageBackground = Background([
@@ -40,7 +41,7 @@ const AllowancePageContainerCSS = css`
     &>.content{
         width: 100%;
         height: 100%;
-        padding: 16px 23px;
+        padding: 24px 23px 8px 23px;
         overflow: hidden;
         &>div{
             overflow-y: auto;
@@ -94,7 +95,6 @@ function AllowancePageContainer({onClose, children, ...props}){
     )
     return (
         <div css={ModalContainerCSS}>
-            <AllowancePageBackground {...props}>
                 <div css={AllowancePageContainerCSS}>
                     <div className="title">
                         {title}
@@ -106,7 +106,6 @@ function AllowancePageContainer({onClose, children, ...props}){
                     </div>
                     <CloseButton className="close" onClick={onCloseButtonClick}/>
                 </div>     
-            </AllowancePageBackground>
         </div>
     )
 }

@@ -15,6 +15,7 @@ function Register(props){
     const register = useCallback(
         async (userInfo)=>{
             console.log("register", userInfo);
+            alert("가입되었습니다.");
             modalController.close();
             navigate("/UserInfo");
         },
