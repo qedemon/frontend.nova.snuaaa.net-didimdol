@@ -134,7 +134,7 @@ export default [
         property: {
             type: "text",
             placeholder: "아이디",
-            sideButtonLabel: "중복 확인"
+            sideButtonLabel: "Check"
         },
         validate: ({value})=>{
             return (value.length>0)?
