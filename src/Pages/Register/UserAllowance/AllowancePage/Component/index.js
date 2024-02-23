@@ -5,6 +5,14 @@ import {Background} from "../../../../../Components";
 import {ReactComponent as LowerCenter} from "../Assets/LowerCenter.svg";
 import {ReactComponent as CloseButton} from "../Assets/CloseButton.svg";
 
+const ModalContainerCSS = css`
+    width: 80%;
+    height: 80%;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+`
+
 const AllowancePageBackground = Background([
     {
         components: LowerCenter,
@@ -40,7 +48,6 @@ const AllowancePageContainerCSS = css`
             &>*{
                 white-space: pre-wrap;
                 color: rgba(58, 57, 52, 1);
-                font-family: Inter;
                 font-size: 12px;
                 font-weight: 400;
                 line-height: 15px;
@@ -86,19 +93,21 @@ function AllowancePageContainer({onClose, children, ...props}){
         [[], []]
     )
     return (
-        <AllowancePageBackground {...props}>
-            <div css={AllowancePageContainerCSS}>
-                <div className="title">
-                    {title}
-                </div>
-                <div className="content">
-                    <div>
-                        {content}
+        <div css={ModalContainerCSS}>
+            <AllowancePageBackground {...props}>
+                <div css={AllowancePageContainerCSS}>
+                    <div className="title">
+                        {title}
                     </div>
-                </div>
-                <CloseButton className="close" onClick={onCloseButtonClick}/>
-            </div>     
-        </AllowancePageBackground>
+                    <div className="content">
+                        <div>
+                            {content}
+                        </div>
+                    </div>
+                    <CloseButton className="close" onClick={onCloseButtonClick}/>
+                </div>     
+            </AllowancePageBackground>
+        </div>
     )
 }
 export {AllowancePageContainer}

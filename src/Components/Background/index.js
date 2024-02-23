@@ -9,12 +9,12 @@ const BackgroundCSS = css`
     height: 100%;
     padding: 0px;
     &>.background{
-        position: fixed;
+        position: absolute;
         width: 100%;
         height: 100%;
         background: rgba(245, 224, 213, 1);
         &>*{
-            position: fixed;
+            position: absolute;
         }
         &>.Upper{
             top: 0px;
@@ -34,7 +34,7 @@ const BackgroundCSS = css`
         }
     }
     &>div.content{
-        position: fixed;
+        position: absolute;
         width: 100%;
         height: 100%;
 
