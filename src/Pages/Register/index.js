@@ -5,6 +5,7 @@ import {Form} from "../../Components";
 import FormSchema from "./FormSchema";
 import {useContext as useModalController} from "../../Context/Modal";
 import DepositPage from "./DepositPage";
+import DepositSubmitPage from "./DepositSubmitPage";
 
 function Register(props){
     const formController = useRef();
@@ -29,8 +30,20 @@ function Register(props){
                 {
                     component: DepositPage,
                     props: {
-                        onDeposit: ()=>{
-                            console.log("deposit");
+                        onSubmit: ()=>{
+                            modalController.setChildren(
+                                {
+                                    component: DepositSubmitPage,
+                                    props: {
+                                        onSubmit: (value)=>{
+                                            console.log(
+                                                {...values, "depositor": value}
+                                            )
+                                        }
+                                    }
+                                }
+                            )
+                            modalController.open();
                         }
                     }
                 }

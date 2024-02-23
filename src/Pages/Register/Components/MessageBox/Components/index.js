@@ -2,11 +2,10 @@
 import React, {forwardRef} from "react";
 import {css} from "@emotion/react";
 import {ReactComponent as CloseButton} from "../Assets/CloseButton.svg";
-import {ReactComponent as Copybutton} from "../Assets/CopyButton.svg";
 
-const DepositPageContainerCSS = css`
+const MessageBoxContainerCSS = css`
     width: 346px;
-    height: 298px;
+    height: 300px;
     background-color: white;
     position: relative;
     &>.closeButton{
@@ -15,24 +14,32 @@ const DepositPageContainerCSS = css`
         right: 16px;
     }
 
-    display: flex;
+    display: grid;
+    padding-top: 48px;
+    padding-bottom: 48px;
+    grid-template-areas: 
+        "header"
+        "body"
+        "footer";
+
     flex-direction: column;
     align-items: center;
 `;
 
-function DepositPageContainer({children, onClose, ...props}){
+function MessageBoxContainer({children, onClose, ...props}){
     return (
-        <div css={DepositPageContainerCSS}>
+        <div css={MessageBoxContainerCSS}>
             {children}
             <CloseButton className="closeButton" onClick={onClose} />
         </div>
     )
 }
 
-export {DepositPageContainer};
+export {MessageBoxContainer};
 
-const DepositPageHeaderCSS = css`
-    margin: 32px 16px 10px 16px;
+const MessageBoxHeaderCSS = css`
+    grid-area: header;
+    align-self: start;
 
     display: flex;
     flex-direction: column;
@@ -64,44 +71,37 @@ const DepositPageHeaderCSS = css`
         color: rgba(102, 102, 102, 1);
     }
 `;
-function DepositPageHeader({children}){
+function MessageBoxHeader({children}){
     return (
-        <div css={DepositPageHeaderCSS}>
+        <div css={MessageBoxHeaderCSS}>
             {children}
         </div>
     )
 }
-export {DepositPageHeader}
+export {MessageBoxHeader}
 
-const DepositPageBodyCSS = css`
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    &>.content{
-        flex-grow: 1;
-        &>*{
-            font-family: Poppins;
-            font-size: 16px;
-            font-weight: 500;
-            line-height: 24px;
-            letter-spacing: 0em;
-            text-align: left;
-            color: rgba(22, 88, 182, 1);
-        }
-    }
-    &>.copyButton{
-        cursor: pointer;
-    }
-    margin-bottom: 16px;
+const MessageBoxBodyCSS = css`
+    grid-area: body;
+    padding: 0px 32px;
 `
-function DepositPageBody({onCopy, children}){
+function MessageBoxBody({children}){
     return (
-        <div css={DepositPageBodyCSS}>
-            <div className="content">
-                {children}
-            </div>
-            <Copybutton className="copyButton" onClick={onCopy}/>
+        <div css={MessageBoxBodyCSS}>
+            {children}
         </div>
     )
 }
-export {DepositPageBody}
+export {MessageBoxBody}
+
+const MessageBoxFooterCSS = css`
+    grid-area: footer;
+    align-self: end;
+`;
+function MessageBoxFooter({children}){
+    return (
+        <div css={MessageBoxFooterCSS}>
+            {children}
+        </div>
+    )
+}
+export {MessageBoxFooter}
