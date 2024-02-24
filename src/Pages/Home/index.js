@@ -1,9 +1,30 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Background, ContentContainer, LaunchButton, LinkMessage, TitleMessage } from "./Components";
 import { ReactComponent as Rocket } from "./Assets/Rocket.svg";
+import {useContext as useModalController} from "../../Context/Modal";
+import UserInfoPage from "./UserInfoPage";
 
-function Register(props){
+function Home({userInfoOpen, ...props}){
+    const modalController = useModalController().current;
+    const openUserInfo = useCallback(
+        ()=>{
+            modalController.setChildren(
+                {
+                    component: UserInfoPage
+                }
+            );
+            modalController.open();
+        },
+        [modalController]
+    )
+    useEffect(
+        ()=>{
+            if(userInfoOpen){
+                openUserInfo();
+            }
+        },
+    )
     return (
         <Background>
             <ContentContainer>
@@ -13,12 +34,10 @@ function Register(props){
                 <Link to="/Register">
                     <LaunchButton>가입하기</LaunchButton>
                 </Link>
-                <Link to="/UserInfo">
-                    <LaunchButton>가입번호 조회</LaunchButton>
-                </Link>
+                <LaunchButton onClick={openUserInfo}>가입번호 조회</LaunchButton>
             </ContentContainer>
         </Background>
     )
 }
 
-export default Register;
+export default Home;

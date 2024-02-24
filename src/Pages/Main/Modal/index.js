@@ -2,12 +2,6 @@ import React, { useCallback, useState } from "react";
 import { ModalLayer } from "./Components";
 
 function defaultComponent({controller, ...props}){
-    setTimeout(
-        ()=>{
-            controller.close();
-        },
-        1000
-    )
     return (
         <div {...props}>
             아무것도 없다면 이것을 띄웁니다.
@@ -39,7 +33,7 @@ function Modal({controller, className}){
                                 children:
                                 [children]
                         }
-                    )(!children||children.length===0?[defaultComponent]:children)
+                    )(!children||children.length===0?[{component: defaultComponent}]:children)
                     .map(
                         ({component: Component, props={}}, key)=>{
                             return (

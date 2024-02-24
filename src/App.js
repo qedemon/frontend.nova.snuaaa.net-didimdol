@@ -19,7 +19,7 @@ class App extends Component {
                 <Route path="/" exact element={<Home/>}/>
                 <Route path="/Login" element={<Login/>}/>
                 <Route path="/Register" element={<Register/>}/>
-                <Route path="/UserInfo" element={<UserInfo/>}/>
+                <Route path="/UserInfo" element={<Home userInfoOpen={true}/>}/>
               </Routes>
             </Main>
           </div>
