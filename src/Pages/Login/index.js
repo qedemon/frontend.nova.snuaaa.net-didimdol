@@ -35,7 +35,7 @@ function Login(){
             (
                 async (id, password)=>{
                     try{
-                        const {data} = await request.post("/authenticate/", {id, password});
+                        const {data} = await request.post("/authenticate/", {id, password, isStep: true});
                         if(data?.authenticated){
                             const {token} = data;
                             setCookie("token", token);
