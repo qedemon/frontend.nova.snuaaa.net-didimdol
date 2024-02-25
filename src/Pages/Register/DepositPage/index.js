@@ -7,7 +7,7 @@ import CopyBody from "../Components/CopyBody";
 const accountName = process.env.REACT_APP_ACCOUNT_NAME;
 const accountNo = process.env.REACT_APP_ACCOUNT_NO;
 
-function DepositPage({onSubmit, ...props}){
+function DepositPage({onSubmit, userInfo, ...props}){
     const controller = useModalController().current;
     const onClose = useCallback(
         ()=>{
@@ -27,13 +27,17 @@ function DepositPage({onSubmit, ...props}){
                 <h1>
                     가입비 <span>20,000원</span>을<br/> 입금하셨나요?
                 </h1>
-                <p>
-                    동아리 가입비를 납부하셔야지만 가입이 완료됩니다.
-                </p>
             </MessageBoxHeader>
             <MessageBoxBody>
+                <p className="label">
+                    동아리 가입비를 납부하셔야지만 가입이 완료됩니다.
+                </p>
                 <CopyBody onCopy={onCopy}>
                     <h1>{accountName}<br/>{accountNo}</h1>
+                </CopyBody>
+                <p className="label">빠른 확인을 위해 예금주명은 다음을 입력해주세요.</p>
+                <CopyBody>
+                    <h1>신입 {userInfo.name} {userInfo.colNo.slice(2)}</h1>
                 </CopyBody>
             </MessageBoxBody>
             <MessageBoxFooter>

@@ -16,8 +16,8 @@ function DepositSubmitPage({onSubmit, ...props}){
     const onSubmitHandler = useCallback(
         ()=>{
             const value = inputRef.current.value;
-            if(/신입 \d{2} .{1,}/.test(value)===0){
-                setMessage("이름은 신입 학번 이름 입니다.");
+            if(value.length===0){
+                setMessage("송금하신 예금주명을 입력해주세요.");
             }
             else{
                 if(typeof(onSubmit)==="function"){
@@ -38,7 +38,7 @@ function DepositSubmitPage({onSubmit, ...props}){
                 </p>
             </MessageBoxHeader>
             <MessageBoxBody>
-                <Input ref={inputRef} placeholder="신입 24 김이름"/>
+                <Input ref={inputRef} placeholder="송금하신 예금주명을 입력해주세요."/>
                 <label>{message??"\u00A0"}</label>
             </MessageBoxBody>
             <MessageBoxFooter>

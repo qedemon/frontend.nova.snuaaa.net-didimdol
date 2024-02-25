@@ -5,7 +5,6 @@ import {ReactComponent as CloseButton} from "../Assets/CloseButton.svg";
 
 const MessageBoxContainerCSS = css`
     width: 346px;
-    height: 300px;
     background-color: white;
     position: relative;
     &>.closeButton{
@@ -59,7 +58,6 @@ const MessageBoxHeaderCSS = css`
     }
     &>p{
         margin: 0px;
-        margin-top: 16px;
         font-size: 12px;
         font-weight: 400;
         line-height: 18px;
@@ -68,6 +66,7 @@ const MessageBoxHeaderCSS = css`
         text-decoration: underline;
         color: rgba(102, 102, 102, 1);
     }
+    margin-bottom: 16px;
 `;
 function MessageBoxHeader({children}){
     return (
@@ -81,6 +80,17 @@ export {MessageBoxHeader}
 const MessageBoxBodyCSS = css`
     grid-area: body;
     padding: 0px 32px;
+    &>p.label{
+        margin: 0px;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 18px;
+        letter-spacing: 0em;
+        text-align: center;
+        text-decoration: underline;
+        color: rgba(102, 102, 102, 1);
+    }
+    margin-bottom: 16px;
 `
 function MessageBoxBody({children}){
     return (

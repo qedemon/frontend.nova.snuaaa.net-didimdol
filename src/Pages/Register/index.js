@@ -36,11 +36,17 @@ function Register(props){
             },
             [{}, true]
         );
-        if(validation){
+        if(validation || values.name==="넘기기"){
             modalController.setChildren(
                 {
                     component: DepositPage,
                     props: {
+                        userInfo: (
+                            (userInfo)=>{
+                                const {name, colNo} = userInfo;
+                                return {name, colNo};
+                            }
+                        )(values),
                         onSubmit: ()=>{
                             modalController.setChildren(
                                 {
