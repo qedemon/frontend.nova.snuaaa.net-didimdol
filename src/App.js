@@ -4,7 +4,7 @@ import './App.css';
 import Main from './Pages/Main';
 import Auth from "./Context/Auth";
 import Home from './Pages/Home';
-import Login from './Pages/Login';
+import StaffLogin from './Pages/StaffLogin';
 import Register from './Pages/Register';
 
 class App extends Component {
@@ -16,7 +16,7 @@ class App extends Component {
             <Main>
               <Routes>
                 <Route path="/" exact element={<Home/>}/>
-                <Route path="/Login" element={<Login/>}/>
+                <Route path="/StaffLogin" element={<StaffLogin/>}/>
                 <Route path="/Register" element={<Register/>}/>
                 <Route path="/UserInfo" element={<Home userInfoOpen={true}/>}/>
               </Routes>

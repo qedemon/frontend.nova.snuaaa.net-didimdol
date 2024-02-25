@@ -12,5 +12,8 @@
 .App *{
   box-sizing: border-box;
   
-  font-family: 'NIXGONM-Vb';
+  font-family: 'NIXGONM-Vb Poppins';
+}
+.App input[type="password"]{
+  font-family: Arial, sans-serif;
 }
