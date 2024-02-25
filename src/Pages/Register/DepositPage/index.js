@@ -4,6 +4,9 @@ import { LaunchButton } from "../../../Components";
 import { MessageBoxBody, MessageBoxContainer, MessageBoxFooter, MessageBoxHeader } from "../Components/MessageBox/Components";
 import CopyBody from "../Components/CopyBody";
 
+const accountName = process.env.REACT_APP_ACCOUNT_NAME;
+const accountNo = process.env.REACT_APP_ACCOUNT_NO;
+
 function DepositPage({onSubmit, ...props}){
     const controller = useModalController().current;
     const onClose = useCallback(
@@ -14,7 +17,7 @@ function DepositPage({onSubmit, ...props}){
     )
     const onCopy = useCallback(
         ()=>{
-            navigator.clipboard.writeText("농협 3010276717481");
+            navigator.clipboard.writeText(`${accountName} ${accountNo}`);
         },
         []
     )
@@ -30,7 +33,7 @@ function DepositPage({onSubmit, ...props}){
             </MessageBoxHeader>
             <MessageBoxBody>
                 <CopyBody onCopy={onCopy}>
-                    <h1>서울대학교아마추어천문회<br/>농협 3010276717481</h1>
+                    <h1>{accountName}<br/>{accountNo}</h1>
                 </CopyBody>
             </MessageBoxBody>
             <MessageBoxFooter>
