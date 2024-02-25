@@ -23,7 +23,7 @@ function getMessageFromState(state){
     return "로그인 계정은 our.snuaaa.net 계정과 연동됩니다."
 }
 
-function Login(){
+function StaffLogin(){
     const [loginState, setLoginState] = useState(States.init);
     const idRef = useRef();
     const passwordRef = useRef();
@@ -35,7 +35,7 @@ function Login(){
             (
                 async (id, password)=>{
                     try{
-                        const {data} = await request.post("/authenticate/", {id, password, isStep: true});
+                        const {data} = await request.post("/authenticate/", {id, password, isStaff: true});
                         if(data?.authenticated){
                             const {token} = data;
                             setCookie("token", token);
@@ -56,7 +56,7 @@ function Login(){
     )
     return (
         <>
-            <h2>AAA - 디딤돌</h2>
+            <h2>AAA - 디딤돌 Staff Login</h2>
             <Container>
                 <Input ref={idRef} className="id" id="userId" type="text" placeholder="아이디"/>
                 <Input ref={passwordRef} className="password" id="password" type="password" placeholder="비밀번호"/>
@@ -67,4 +67,4 @@ function Login(){
     )
 }
 
-export default Login;
+export default StaffLogin;
