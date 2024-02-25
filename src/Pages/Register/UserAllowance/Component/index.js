@@ -71,11 +71,18 @@ const CheckBox = forwardRef(
 export {CheckBox}
 
 const MoreButtonCSS = css`
-
+    height: 24px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 `;
 function MoreButton({className, ...props}){
     return (
-        <More css={MoreButtonCSS} className={className} {...props}/>
+        <div css={MoreButtonCSS} className={className}{...props}>
+            <More/>
+        </div>
     )
 }
 export {MoreButton}
