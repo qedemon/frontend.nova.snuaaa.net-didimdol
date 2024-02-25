@@ -17,3 +17,6 @@
 .App input[type="password"]{
   font-family: Arial, sans-serif;
 }
+.App input[type="password"]::placeholder{
+  font-family: 'NIXGONM-Vb', 'Poppins';
+}
