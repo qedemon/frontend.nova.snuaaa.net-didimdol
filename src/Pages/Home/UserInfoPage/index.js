@@ -1,13 +1,9 @@
 import React, { useCallback, useState } from "react";
 import { UserInfoPageContainer } from "./Components";
+import {useContext as useModalController} from "../../../Context/Modal";
 
-function UserInfoPage({controller, ...props}){
-    const [userInfo, setUserInfo] = useState(
-        {
-            name: "김이름",
-            aaaNo: "AAA24-00"
-        }
-    );
+function UserInfoPage({userInfo, ...props}){
+    const controller = useModalController().current;
     const closeModal = useCallback(
         ()=>{
             controller?.close && controller.close();
@@ -16,9 +12,9 @@ function UserInfoPage({controller, ...props}){
     )
     return (
         <UserInfoPageContainer onClose={closeModal}>
-            <h2 className="name"><span>{userInfo.name}</span> On-Board</h2>
+            <h2 className="name"><span>{userInfo?.name}</span> On-Board</h2>
             <h3 className="label">가입번호</h3>
-            <h1 className="AAANo">{userInfo.aaaNo}</h1>
+            <h1 className="AAANo">{userInfo?.aaaNo}</h1>
         </UserInfoPageContainer>
     )
 }

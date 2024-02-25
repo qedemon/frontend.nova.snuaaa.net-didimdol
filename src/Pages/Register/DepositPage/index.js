@@ -1,9 +1,11 @@
 import React, { useCallback } from "react";
+import { useContext as useModalController } from "../../../Context/Modal";
 import { LaunchButton } from "../../../Components";
 import { MessageBoxBody, MessageBoxContainer, MessageBoxFooter, MessageBoxHeader } from "../Components/MessageBox/Components";
 import CopyBody from "../Components/CopyBody";
 
-function DepositPage({controller, onSubmit, ...props}){
+function DepositPage({onSubmit, ...props}){
+    const controller = useModalController().current;
     const onClose = useCallback(
         ()=>{
             controller.close();

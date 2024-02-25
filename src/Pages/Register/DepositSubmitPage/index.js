@@ -1,8 +1,10 @@
 import React, { useCallback, useRef, useState } from "react";
+import { useContext as useModalController } from "../../../Context/Modal";
 import { LaunchButton, Input } from "../../../Components";
 import { MessageBoxBody, MessageBoxContainer, MessageBoxFooter, MessageBoxHeader } from "../Components/MessageBox/Components";
 
-function DepositSubmitPage({controller, onSubmit, ...props}){
+function DepositSubmitPage({onSubmit, ...props}){
+    const controller = useModalController().current;
     const inputRef = useRef();
     const [message, setMessage] = useState("");
     const onClose = useCallback(

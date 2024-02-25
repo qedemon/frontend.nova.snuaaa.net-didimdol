@@ -3,20 +3,31 @@ import { Link } from "react-router-dom";
 import { Background, ContentContainer, LaunchButton, LinkMessage, TitleMessage } from "./Components";
 import { ReactComponent as Rocket } from "./Assets/Rocket.svg";
 import {useContext as useModalController} from "../../Context/Modal";
+import {useContext as useAuth} from "../../Context/Auth";
 import UserInfoPage from "./UserInfoPage";
+import LoginPage from "./LoginPage";
 
 function Home({userInfoOpen, ...props}){
+    const auth = useAuth();
     const modalController = useModalController().current;
     const openUserInfo = useCallback(
         ()=>{
             modalController.setChildren(
+                (auth?.authorized)?
                 {
-                    component: UserInfoPage
+                    component: UserInfoPage,
+                    props: {
+                        userInfo: auth.userInfo
+                    }
+                }
+                :
+                {
+                    component: LoginPage
                 }
             );
             modalController.open();
         },
-        [modalController]
+        [modalController, auth]
     )
     useEffect(
         ()=>{

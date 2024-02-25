@@ -2,8 +2,10 @@ import React, { useCallback, useEffect, useState } from "react";
 import { AllowancePageContainer } from "./Component";
 import AllowanceTextPath from "./Assets/allowanceText.txt";
 import axios from "axios";
+import {useContext as useModalController} from "../../../../Context/Modal";
 
-function AllowancePage({controller, ...props}){
+function AllowancePage({...props}){
+    const controller = useModalController().current;
     const [allowanceText, setAllowanceText] = useState("");
     const onClose = useCallback(
         ()=>{

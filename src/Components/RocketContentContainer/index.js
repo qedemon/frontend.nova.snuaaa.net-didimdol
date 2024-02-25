@@ -9,9 +9,12 @@ const rocketRatio = 250/375;
 const ContentContainerCSS = css`
     width: 100%;
     height: 100%;
-    &>div{
+    position: relative;
+    display: grid;
+    grid-template-rows: 144px auto;
+    &>div.real{
         position: relative;
-        margin-top: calc(${rocketRatio*rocketOff}% + 144px);
+        margin-top: ${rocketRatio*rocketOff}%;
         background-color: white;
         &>.title{
             position: absolute;
@@ -58,16 +61,18 @@ function RocketContentContainer({children, ...props}){
                     return className??"";
                 }
             )(item)
+            const isTitle = className.split(" ").includes("title");
             return [
-                className.split(" ").includes("title")?[...title, item]:title,
-                className.split(" ").includes("content")?[...content, item]:content
+                isTitle?[...title, item]:title,
+                !isTitle?[...content, item]:content
             ]
         },
         [[], []]
     );
     return (
         <div css={ContentContainerCSS} {...props}>
-            <div>
+            <div className="spacer"/>
+            <div className="real">
                 <Rocket className="rocket"/>
                 <div className="title">
                     <div>

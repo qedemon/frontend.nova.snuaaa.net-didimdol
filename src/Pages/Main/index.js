@@ -10,8 +10,8 @@ function Main({children, ...props}){
         <MainContainer {...props}>
             <ModalProvider value = {modalControllerRef}>
                 {children}
+                <Modal controller={modalControllerRef.current} className="topLayer"/>
             </ModalProvider>
-            <Modal controller={modalControllerRef.current} className="topLayer"/>
         </MainContainer>
     )
 }
