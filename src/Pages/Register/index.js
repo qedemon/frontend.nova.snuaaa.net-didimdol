@@ -26,7 +26,7 @@ function Register(props){
                 console.log("register", registed);
                 alert("가입되었습니다.");
                 modalController.close();
-                navigate("/UserInfo");
+                window.location.replace("/UserInfo");
             }
             catch(error){
                 console.log(error);
