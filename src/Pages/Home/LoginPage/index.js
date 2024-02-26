@@ -1,13 +1,16 @@
 import React, { useCallback, useRef, useState } from "react";
 import { LoginPageContainer, LoginPageContentContainer } from "./Components";
+import { useNavigate } from "react-router-dom";
 import {useContext as useModalController} from "../../../Context/Modal";
 import { Form, LaunchButton } from "../../../Components";
 import FormSchema from "./FormSchema";
 import request from "../../../Utility/Connection";
-import { setCookie } from "../../../Utility/Cookie";
+import {useContext as useAuth} from "../../../Context/Auth";
 
 function LoginPage({...props}){
     const controller = useModalController().current;
+    const auth = useAuth();
+    const navigate = useNavigate()
     const formController = useRef();
     const [loginState, setLoginState] = useState("로그인");
     const onSubmit = useCallback(
@@ -24,11 +27,11 @@ function LoginPage({...props}){
                     );
                     if(data?.authenticated){
                         const {token} = data;
-                        setCookie("token", token);
                         setLoginState("로그인 완료");
                         setTimeout(()=>{
+                            auth.setToken(token);
                             console.log("home");
-                            window.location.replace("/UserInfo");
+                            navigate("/UserInfo");
                         }, 250)
                     }
                 }

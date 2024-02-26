@@ -3,6 +3,7 @@ import { Background } from "./Components";
 import { LaunchButton, RocketContentContainer } from "../../Components"
 import {Form} from "../../Components";
 import FormSchema from "./FormSchema";
+import {useContext as useAuth} from "../../Context/Auth";
 import {useContext as useModalController} from "../../Context/Modal";
 import DepositPage from "./DepositPage";
 import DepositSubmitPage from "./DepositSubmitPage";
@@ -14,6 +15,7 @@ function Register(props){
     const navigate = useNavigate();
     const formController = useRef();
     const modalController = useModalController().current;
+    const auth = useAuth();
     const register = useCallback(
         async (userInfo)=>{
             try{
@@ -22,11 +24,11 @@ function Register(props){
                 if(error){
                     throw error
                 }
-                setCookie("token", token);
                 console.log("register", registed);
                 alert("가입되었습니다.");
                 modalController.close();
-                window.location.replace("/UserInfo");
+                auth.setToken(token);
+                navigate("/UserInfo");
             }
             catch(error){
                 console.log(error);
