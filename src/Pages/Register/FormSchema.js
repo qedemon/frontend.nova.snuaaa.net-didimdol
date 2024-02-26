@@ -171,13 +171,13 @@ export default [
             sideButtonLabel: "Show"
         },
         validate: ({value})=>{
-            return (value.length>0)?
+            return (/^(?=.*[a-zA-Z])(?=.*[0-9])/.test(value) && value.length>=8)?
             {
                 result: true
             }:
             {
                 result: false,
-                message: "적어도 한글자는 입력해 주세요."
+                message: "비밀번호는 알파벳 숫자 포함하여 8자 이상입니다."
             }
         },
         handlers: {

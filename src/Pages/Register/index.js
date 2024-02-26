@@ -7,6 +7,8 @@ import {useContext as useModalController} from "../../Context/Modal";
 import DepositPage from "./DepositPage";
 import DepositSubmitPage from "./DepositSubmitPage";
 import { useNavigate } from "react-router-dom";
+import request from "../../Utility/Connection";
+import { setCookie } from "../../Utility/Cookie";
 
 function Register(props){
     const navigate = useNavigate();
@@ -14,10 +16,24 @@ function Register(props){
     const modalController = useModalController().current;
     const register = useCallback(
         async (userInfo)=>{
-            console.log("register", userInfo);
-            alert("가입되었습니다.(아직 안됨)");
-            modalController.close();
-            navigate("/UserInfo");
+            try{
+                const {data} = await request.post("/user/register", userInfo);
+                const {registed, token, error} = data;
+                if(error){
+                    throw error
+                }
+                setCookie("token", token);
+                console.log("register", registed);
+                alert("가입되었습니다.");
+                modalController.close();
+                navigate("/UserInfo");
+            }
+            catch(error){
+                console.log(error);
+                alert("가입 실패");
+                modalController.close();
+                navigate("/Register");
+            }
         },
         []
     )

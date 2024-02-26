@@ -20,6 +20,12 @@ function DepositPage({onSubmit, userInfo, ...props}){
             navigator.clipboard.writeText(`${accountName} ${accountNo}`);
         },
         []
+    );
+    const onDepositorCopy = useCallback(
+        ()=>{
+            navigator.clipboard.writeText(`신입 ${userInfo.name} ${userInfo.colNo.slice(2)}`);
+        },
+        []
     )
     return (
         <MessageBoxContainer onClose={onClose}>
@@ -36,7 +42,7 @@ function DepositPage({onSubmit, userInfo, ...props}){
                     <h1>{accountName}<br/>{accountNo}</h1>
                 </CopyBody>
                 <p className="label">빠른 확인을 위해 예금주명은 다음을 입력해주세요.</p>
-                <CopyBody>
+                <CopyBody onCopy={onDepositorCopy}>
                     <h1>신입 {userInfo.name} {userInfo.colNo.slice(2)}</h1>
                 </CopyBody>
             </MessageBoxBody>
