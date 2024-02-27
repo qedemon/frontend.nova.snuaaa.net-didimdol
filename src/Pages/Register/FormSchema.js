@@ -57,7 +57,7 @@ export default [
         component: Input,
         property: {
             type: "text",
-            placeholder: "학번 ex) 2024"
+            placeholder: "입학년도 ex) 2024"
         },
         validate: ({value})=>{
             return (/^\d{4}$/.test(value))?

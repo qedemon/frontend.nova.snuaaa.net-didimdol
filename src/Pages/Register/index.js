@@ -20,11 +20,11 @@ function Register(props){
         async (userInfo)=>{
             try{
                 const {data} = await request.post("/user/register", userInfo);
-                const {registed, token, error} = data;
+                const {registred, token, error} = data;
                 if(error){
                     throw error
                 }
-                console.log("register", registed);
+                console.log("register", registred);
                 alert("가입되었습니다.");
                 modalController.close();
                 auth.setToken(token);

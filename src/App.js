@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import './App.css';
 import Main from './Pages/Main';
 import Auth from "./Context/Auth";
@@ -11,7 +11,7 @@ class App extends Component {
   render() {
     return (
       <Auth.Provider>
-        <BrowserRouter>
+        <HashRouter>
           <div className="App">
             <Main>
               <Routes>
@@ -22,7 +22,7 @@ class App extends Component {
               </Routes>
             </Main>
           </div>
-        </BrowserRouter>
+        </HashRouter>
       </Auth.Provider>
     );
   }
