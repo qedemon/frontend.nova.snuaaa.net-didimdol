@@ -4,6 +4,8 @@ export function getCookie(key) {
     return result?result[1]:"";
 }
 export function setCookie(key, value, expires=null){
-    console.log(key, value);
-    document.cookie=`${key}=${value}; path=/; ${expires?`expires=${expires}`:``}`;
+    const cookieString = `${key}=${value}; domain=snuaaa.net; path=/; ${expires?`expires=${expires};`:``}`;
+    const cookieStringLocal = `${key}=${value}; path=/; ${expires?`expires=${expires};`:``}`;
+    document.cookie=cookieString;
+    document.cookie=cookieStringLocal;
 }
