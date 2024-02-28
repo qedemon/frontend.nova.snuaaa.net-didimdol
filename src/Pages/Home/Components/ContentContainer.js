@@ -4,10 +4,9 @@ import {css} from "@emotion/react";
 
 const ContentContainerCSS = css`
     display: grid;
-    grid-template-rows: 177px 44px 53px 75px;
+    grid-template-rows: 177px 44px 53px 75px 75px;
     justify-items: center;
     align-items: start;
-
     & a{
         text-decoration-line: none;
     }

@@ -22,7 +22,10 @@ function Home({userInfoOpen, ...props}){
                 }
                 :
                 {
-                    component: LoginPage
+                    component: LoginPage,
+                    props: {
+                        returnPath: "/UserInfo"
+                    }
                 }
             );
             modalController.open();
@@ -46,6 +49,15 @@ function Home({userInfoOpen, ...props}){
                     <LaunchButton>가입하기</LaunchButton>
                 </Link>
                 <LaunchButton onClick={openUserInfo}>가입번호 조회</LaunchButton>
+                {
+                    auth?.userInfo?.isStaff?
+                    (
+                        <Link to="/Admin">
+                            <LaunchButton>가입 현황</LaunchButton>
+                        </Link>
+                    )
+                    :null
+                }
             </ContentContainer>
         </Background>
     )

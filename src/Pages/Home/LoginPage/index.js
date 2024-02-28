@@ -7,7 +7,7 @@ import FormSchema from "./FormSchema";
 import request from "../../../Utility/Connection";
 import {useContext as useAuth} from "../../../Context/Auth";
 
-function LoginPage({...props}){
+function LoginPage({returnPath="/", ...props}){
     const controller = useModalController().current;
     const auth = useAuth();
     const navigate = useNavigate()
@@ -31,7 +31,7 @@ function LoginPage({...props}){
                         setTimeout(()=>{
                             auth.setToken(token);
                             console.log("home");
-                            navigate("/UserInfo");
+                            navigate(returnPath);
                         }, 250)
                     }
                 }
