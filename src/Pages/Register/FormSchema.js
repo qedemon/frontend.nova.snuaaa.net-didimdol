@@ -1,5 +1,5 @@
 import React from "react"
-import { LaunchButton, Input } from "../../Components";
+import { Input, Select } from "../../Components";
 import UserAllowance from "./UserAllowance";
 
 import Connection from "../../Utility/Connection";
@@ -57,7 +57,7 @@ export default [
         component: Input,
         property: {
             type: "text",
-            placeholder: "입학년도 ex) 2024"
+            placeholder: "학부/대학원 입학년도 ex) 2024"
         },
         validate: ({value})=>{
             return (/^\d{4}$/.test(value))?
@@ -68,6 +68,42 @@ export default [
                 result: false,
                 message: "학번 형식에 맞추어 주세요."
             }
+        }
+    },
+    {
+        key: "course",
+        label: "과정",
+        component: Select,
+        property: {
+            options: [
+                {
+                    label: "과정을 선택해 주세요. (학부 or 대학원)",
+                    value: "",
+                    property: {
+                        selected: true,
+                        disabled: true,
+                        hidden: true
+                    }
+                },
+                {
+                    label: "학부",
+                    value: "학부"
+                },
+                {
+                    label: "대학원",
+                    value: "대학원"
+                }
+            ]
+        },
+        validate: ({value})=>{
+            return value.length>0?
+                {
+                    result: true
+                }:
+                {
+                    result: false,
+                    message: "과정을 선택해 주세요. (학부 or 대학원)"
+                }
         }
     },
     {
