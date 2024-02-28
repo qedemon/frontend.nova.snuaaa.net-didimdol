@@ -31,7 +31,7 @@ async function checkId(value){
     }
 }
 
-export default [
+export default (context)=>[
     {
         key: "name",
         label: "이름",
@@ -273,6 +273,32 @@ export default [
                             sideButtonLabel: "Show"
                         }
                 });
+            }
+        }
+    },
+    {
+        key: "depositor",
+        label: "입금자명",
+        component: Input,
+        property: {
+            type: "text",
+            placeholder: '입금자명 ex) 신입 김이름 24',
+            sideButtonLabel: "계좌 정보"
+        },
+        validate: ({value})=>{
+            return (value.length>0)?
+            {
+                result: true
+            }:
+            {
+                result: false,
+                message: "적어도 한 글자 이상 입력해주세요."
+            }
+        },
+        handlers:{
+            onSideButtonClick: ()=>{
+                const {openDepositWindow} = context;
+                openDepositWindow();
             }
         }
     },

@@ -1,9 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { MembersViewTable } from "./Components";
 import request from "../../../Utility/Connection";
 
-function MembersView({members=[]}){
-    console.log(members);
+function MembersView({members=[], onChange}){
+    const onCheckBoxChanged = useCallback(
+        (typeof(onChange)==="function")?
+            (id)=>(e)=>{
+                onChange(id, e.target.checked);
+            }:
+            (_)=>(e)=>{
+
+            }
+        ,
+        [onChange]
+    )
     return (
         <MembersViewTable>
             <tbody>
@@ -32,7 +42,9 @@ function MembersView({members=[]}){
                                     <td>{course}</td>
                                     <td>{schoolNo}</td>
                                     <td>{major}</td>
-                                    <td>{paid?"O":"X"}</td>
+                                    <td>
+                                        <input type="checkbox" defaultChecked={paid} onChange={onCheckBoxChanged(id)}/>
+                                    </td>
                                     <td>{depositor}</td>
                                 </tr>
                             )

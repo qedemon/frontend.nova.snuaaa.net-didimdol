@@ -9,7 +9,6 @@ import DepositPage from "./DepositPage";
 import DepositSubmitPage from "./DepositSubmitPage";
 import { useNavigate } from "react-router-dom";
 import request from "../../Utility/Connection";
-import { setCookie } from "../../Utility/Cookie";
 
 function Register(props){
     const navigate = useNavigate();
@@ -39,6 +38,33 @@ function Register(props){
         },
         []
     )
+    const openDepositWindow = useCallback(
+        async ()=>{
+            const userInfo = {
+                name: formController.current.getValue("name"),
+                colNo: formController.current.getValue("colNo")
+            };
+            
+            modalController.setChildren(
+                {
+                    component: DepositPage,
+                    props: {
+                        userInfo: (
+                            (userInfo)=>{
+                                const {name, colNo} = userInfo;
+                                return {name, colNo};
+                            }
+                        )(userInfo),
+                        onSubmit: ()=>{
+                            modalController.close();
+                        }
+                    }
+                }
+            );
+            modalController.open();
+        },
+        [modalController, formController]
+    )
     const onSubmit = async ()=>{
         const formResult = await formController.current.getValues({requireSetMessage: true, requireSetValidation: true});
         const [values, validation] = Object.entries(formResult)
@@ -55,33 +81,7 @@ function Register(props){
             [{}, true]
         );
         if(validation || values.name==="넘기기"){
-            modalController.setChildren(
-                {
-                    component: DepositPage,
-                    props: {
-                        userInfo: (
-                            (userInfo)=>{
-                                const {name, colNo} = userInfo;
-                                return {name, colNo};
-                            }
-                        )(values),
-                        onSubmit: ()=>{
-                            modalController.setChildren(
-                                {
-                                    component: DepositSubmitPage,
-                                    props: {
-                                        onSubmit: (value)=>{
-                                            register({...values, depositor: value})
-                                        }
-                                    }
-                                }
-                            )
-                            modalController.open();
-                        }
-                    }
-                }
-            );
-            modalController.open();
+            register(values);
         }
     }
     return (
@@ -89,7 +89,7 @@ function Register(props){
             <RocketContentContainer>
                 <p className="title">AAA 2024</p>
                 <p className="title">신입생 가입폼</p>
-                <Form ref={formController} formSchema={FormSchema} className="content"/>
+                <Form ref={formController} formSchema={FormSchema({openDepositWindow})} className="content"/>
                 <LaunchButton onClick={onSubmit} className="content">Sign Up</LaunchButton>
             </RocketContentContainer>
         </Background>
