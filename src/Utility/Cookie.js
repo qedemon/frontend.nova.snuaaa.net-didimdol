@@ -4,5 +4,6 @@ export function getCookie(key) {
     return result?result[1]:"";
 }
 export function setCookie(key, value, expires=null){
+    console.log(key, value);
     document.cookie=`${key}=${value}; path=/; ${expires?`expires=${expires}`:``}`;
 }
