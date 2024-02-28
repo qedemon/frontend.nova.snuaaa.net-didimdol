@@ -4,10 +4,11 @@ import {css} from "@emotion/react";
 
 const SelectCSS = css`
     position: relative;
-    &>*{
+    &>select{
         width: 100%;
         min-height: 50px;
-    
+
+        color: black;
         text-indent: 16px;
         font-size: 16px;
         font-weight: 500;

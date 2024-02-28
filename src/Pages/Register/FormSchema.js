@@ -52,6 +52,46 @@ export default [
         }
     },
     {
+        key: "course",
+        label: "과정",
+        component: Select,
+        property: {
+            defaultValue: "",
+            options: [
+                {
+                    label: "과정을 선택해 주세요. (학부 or 대학원 or 기타)",
+                    value: "",
+                    property: {
+                        disabled: true,
+                        hidden: true
+                    }
+                },
+                {
+                    label: "학부",
+                    value: "학부"
+                },
+                {
+                    label: "대학원",
+                    value: "대학원"
+                },
+                {
+                    label: "기타(교환, 교류학생 등)",
+                    value: "기타(교환, 교류학생 등)"
+                }
+            ]
+        },
+        validate: ({value})=>{
+            return value.length>0?
+                {
+                    result: true
+                }:
+                {
+                    result: false,
+                    message: "과정을 선택해 주세요. (학부 or 대학원)"
+                }
+        }
+    },
+    {
         key: "colNo",
         label: "학번",
         component: Input,
@@ -68,42 +108,6 @@ export default [
                 result: false,
                 message: "학번 형식에 맞추어 주세요."
             }
-        }
-    },
-    {
-        key: "course",
-        label: "과정",
-        component: Select,
-        property: {
-            options: [
-                {
-                    label: "과정을 선택해 주세요. (학부 or 대학원)",
-                    value: "",
-                    property: {
-                        selected: true,
-                        disabled: true,
-                        hidden: true
-                    }
-                },
-                {
-                    label: "학부",
-                    value: "학부"
-                },
-                {
-                    label: "대학원",
-                    value: "대학원"
-                }
-            ]
-        },
-        validate: ({value})=>{
-            return value.length>0?
-                {
-                    result: true
-                }:
-                {
-                    result: false,
-                    message: "과정을 선택해 주세요. (학부 or 대학원)"
-                }
         }
     },
     {
