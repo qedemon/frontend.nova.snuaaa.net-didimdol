@@ -23,7 +23,6 @@ function Register(props){
                 if(error){
                     throw error
                 }
-                console.log("register", registred);
                 alert("가입되었습니다.");
                 modalController.close();
                 auth.setToken(token);

@@ -35,7 +35,7 @@ function StaffLogin(){
             (
                 async (id, password)=>{
                     try{
-                        const {data} = await request.post("/authenticate/", {id, password, isStaff: true});
+                        const {data} = await request.post("/authenticate/", {id, password});
                         if(data?.authenticated){
                             const {token} = data;
                             setCookie("token", token);
