@@ -1,13 +1,14 @@
 import React, { useCallback, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Background, ContentContainer, LaunchButton, LinkMessage, MenuContainer, TitleMessage } from "./Components";
 import { ReactComponent as Rocket } from "./Assets/Rocket.svg";
 import {useContext as useModalController} from "../../Context/Modal";
 import {useContext as useAuth} from "../../Context/Auth";
 import UserInfoPage from "./UserInfoPage";
-import LoginPage from "./LoginPage";
+import {LoginPage, QRPage} from "../Modal";
 
 function Home({userInfoOpen, ...props}){
+    const navigate = useNavigate();
     const auth = useAuth();
     const modalController = useModalController().current;
     const openUserInfo = useCallback(
@@ -31,11 +32,59 @@ function Home({userInfoOpen, ...props}){
             modalController.open();
         },
         [modalController, auth]
+    );
+    const login = useCallback(
+        ()=>{
+            modalController.setChildren(
+                {
+                    component: LoginPage,
+                    props: {
+                        returnPath: "/"
+                    }
+                }
+            );
+            modalController.open();
+        },
+        [modalController]
     )
+    const logout = useCallback(
+        ()=>{
+            auth.setToken("");
+            navigate("/");
+        },
+        [auth]
+    )
+
+    const openQR = useCallback(
+        ()=>{
+            modalController.setChildren(
+                (auth?.authorized)?
+                {
+                    component: QRPage,
+                    props: {
+                        userInfo: auth.userInfo
+                    }
+                }
+                :
+                {
+                    component: LoginPage,
+                    props: {
+                        returnPath: "/UserInfo"
+                    }
+                }
+            );
+            modalController.open();
+        },
+        [auth]
+    )
+
     useEffect(
         ()=>{
             if(userInfoOpen){
                 openUserInfo();
+            }
+            else{
+                modalController.close();
             }
         },
     )
@@ -53,11 +102,23 @@ function Home({userInfoOpen, ...props}){
                     {
                         auth?.userInfo?.isStaff?
                         (
-                            <Link to="/Admin">
-                                <LaunchButton>가입 현황</LaunchButton>
-                            </Link>
+                            <>
+                                <Link to="/Admin">
+                                    <LaunchButton>가입 현황</LaunchButton>
+                                </Link>
+                                <LaunchButton onClick={openQR}>QR코드 생성</LaunchButton>
+                            </>
                         )
                         :null
+                    }
+                    {
+                        auth?.userInfo?
+                            (
+                                <LaunchButton onClick={logout}>로그아웃</LaunchButton>
+                            ):
+                            (
+                                <LaunchButton onClick={login}>로그인</LaunchButton>
+                            )
                     }
                 </MenuContainer>
                 

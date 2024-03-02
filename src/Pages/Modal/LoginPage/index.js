@@ -30,7 +30,6 @@ function LoginPage({returnPath="/", ...props}){
                         setLoginState("로그인 완료");
                         setTimeout(()=>{
                             auth.setToken(token);
-                            console.log("home");
                             navigate(returnPath);
                         }, 250)
                     }
