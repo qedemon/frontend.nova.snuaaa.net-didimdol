@@ -21,12 +21,13 @@ async function getQRURL(type){
             if(data && data.qrAuthentication){
                 const {qrAuthentication} = data;
                 if(qrAuthentication?._id){
-                    return `https://didimdol.nova.snuaaa.net/LogQRAuthentication/${qrAuthentication._id}`;
+                    return `https://didimdol.nova.snuaaa.net/#LogQRAuthentication/${qrAuthentication._id}`;
                 }
             }
         }
     )(type)
     if(targetURL){
+        console.log(targetURL);
         return `https://chart.apis.google.com/chart?cht=qr&chs=250x250&chl=${targetURL}`;
     }
 }
