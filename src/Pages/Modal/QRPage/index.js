@@ -21,7 +21,7 @@ async function getQRURL(type){
             if(data && data.qrAuthentication){
                 const {qrAuthentication} = data;
                 if(qrAuthentication?._id){
-                    return `https://didimdol.nova.snuaaa.net/#LogQRAuthentication/${qrAuthentication._id}`;
+                    return `https://nova.snuaaa.net:9891/LogQRAuthentication/${qrAuthentication._id}`;
                 }
             }
         }
