@@ -1,8 +1,9 @@
 import React from "react"
-import { Input, Select } from "../../Components";
+import { Input, Select, CheckBox } from "../../Components";
 import UserAllowance from "./UserAllowance";
 
 import Connection from "../../Utility/Connection";
+import IntroductionCheck from "./IntroductionCheck";
 
 async function checkId(value){
     if(value.length===0){
@@ -30,6 +31,8 @@ async function checkId(value){
         message: "연결 실패"
     }
 }
+
+let depositOpened = false;
 
 export default (context)=>[
     {
@@ -286,20 +289,48 @@ export default (context)=>[
             sideButtonLabel: "계좌 정보"
         },
         validate: ({value})=>{
-            return (value.length>0)?
-            {
-                result: true
-            }:
-            {
-                result: false,
-                message: "적어도 한 글자 이상 입력해주세요."
+            if(!depositOpened){
+                return {
+                    result: false,
+                    message: "가입비 계좌 정보를 확인해주세요."
+                }
             }
+            if(value.length<=0){
+                return {
+                    result: false,
+                    message: "적어도 한 글자 이상 입력해주세요."
+                }
+            }
+            return {
+                result: true
+            };
         },
         handlers:{
-            onSideButtonClick: ()=>{
+            onSideButtonClick: ({key}, controller)=>{
                 const {openDepositWindow} = context;
                 openDepositWindow();
+                depositOpened = true;
+                controller.refreshValidation(key);
             }
+        }
+    },
+    {
+        key: "introduction",
+        label: "이름",
+        component: IntroductionCheck,
+        property: {
+            label: "자기소개서를 작성하셨나요?"
+        },
+        validate: ({value})=>{
+            const result = value??false;
+            return result?
+                {
+                    result
+                }:
+                {
+                    result,
+                    message: "자기소개서 작성 후 체크해 주시기 바랍니다."
+                }
         }
     },
     {

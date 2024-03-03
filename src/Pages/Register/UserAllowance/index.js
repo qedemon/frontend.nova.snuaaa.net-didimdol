@@ -1,5 +1,6 @@
 import React, { forwardRef, useCallback, useEffect, useRef } from "react";
-import { CheckBox, MoreButton, UserAllowanceContainer } from "./Component";
+import { CheckBox } from "../../../Components";
+import { MoreButton, UserAllowanceContainer } from "./Component";
 import { useContext as useModalController } from "../../../Context/Modal";
 import AllowancePage from "./AllowancePage";
 
@@ -49,7 +50,7 @@ const UserAllowance = forwardRef(
         )
         return (
             <UserAllowanceContainer className={className}>
-                <CheckBox ref={CheckBoxRef} onClick={onCheckBoxClick} onChange={onCheckBoxChanged} className="left" valid={valid}>개인정보 수집 및 이용동의(필수)</CheckBox>
+                <CheckBox ref={CheckBoxRef} onClick={onCheckBoxClick} onChange={onCheckBoxChanged} className="left" valid={valid} label="개인정보 수집 및 이용동의(필수)"></CheckBox>
                 <MoreButton className="right" onClick={onButtonClicked}>{">>"}</MoreButton>
             </UserAllowanceContainer>
         )

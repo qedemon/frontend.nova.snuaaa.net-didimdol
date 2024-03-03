@@ -90,24 +90,27 @@ class FormController{
             this.setField(key, "ref", ref);
         }
     }
+    refreshValidation(key){
+        const value = this.getValue(key);
+        const {result, message} = this.getField(key, "validate")({key, value}, this);
+        this.setMessage(key, message);
+        this.setValidation(key, result);
+        this.getWatchers(key).forEach(
+            ({key, validate})=>{
+                const value = this.getValue(key);
+                const {result, message} = validate({key, value}, this);
+                this.setMessage(key, message);
+                this.setValidation(key, result);
+            }
+        );
+    }
     render(){
         const [schema, setSchema] = useState(this.schema);
         this._setSetSchema(setSchema);
         return schema.map(
-            ({key, validate, validation, message, component: Component, handlers, property, add})=>{
+            ({key, validation, message, component: Component, handlers, property, add})=>{
                 const onChange = (e)=>{
-                    const value = this.getValue(key);
-                    const {result, message} = validate({key, value}, this);
-                    this.setMessage(key, message);
-                    this.setValidation(key, result);
-                    this.getWatchers(key).forEach(
-                        ({key, validate})=>{
-                            const value = this.getValue(key);
-                            const {result, message} = validate({key, value}, this);
-                            this.setMessage(key, message);
-                            this.setValidation(key, result);
-                        }
-                    );
+                    this.refreshValidation(key);
                 }
                 
                 const formHandlers = Object.entries(handlers??{}).reduce(
