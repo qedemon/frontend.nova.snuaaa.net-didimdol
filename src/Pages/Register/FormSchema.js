@@ -180,13 +180,13 @@ export default (context)=>[
             sideButtonLabel: "Check"
         },
         validate: ({value})=>{
-            return (value.length>0)?
+            return (/^[a-zA-Z0-9]{4,12}$/.test(value))?
             {
                 result: true
             }:
             {
                 result: false,
-                message: "적어도 한 글자 이상 입력해주세요."
+                message: "아이디는 4-12자리의 영문 혹은 숫자 입니다."
             }
         },
         asyncValidate: async ({value})=>{
