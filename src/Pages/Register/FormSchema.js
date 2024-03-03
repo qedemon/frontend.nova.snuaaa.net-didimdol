@@ -315,25 +315,6 @@ export default (context)=>[
         }
     },
     {
-        key: "introduction",
-        label: "이름",
-        component: IntroductionCheck,
-        property: {
-            label: "자기소개서를 작성하셨나요?"
-        },
-        validate: ({value})=>{
-            const result = value??false;
-            return result?
-                {
-                    result
-                }:
-                {
-                    result,
-                    message: "자기소개서 작성 후 체크해 주시기 바랍니다."
-                }
-        }
-    },
-    {
         key: "allowance",
         label: "개인정보동의",
         component: UserAllowance,
