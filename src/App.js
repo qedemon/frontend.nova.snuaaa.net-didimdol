@@ -13,7 +13,7 @@ class App extends Component {
   render() {
     return (
       <Auth.Provider>
-        <BrowserRouter>
+        <HashRouter>
           <div className="App">
             <Main>
               <Routes>
@@ -26,7 +26,7 @@ class App extends Component {
               </Routes>
             </Main>
           </div>
-        </BrowserRouter>
+        </HashRouter>
       </Auth.Provider>
     );
   }

@@ -84,9 +84,10 @@ export {MessageBoxHeader}
 
 const MessageBoxBodyCSS = css`
     grid-area: body;
-    padding: 16px 32px;
-    min-width: 282px;
-    min-height: 253px;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    min-height: 252px;
     &>p.label{
         margin: 0px;
         font-size: 12px;

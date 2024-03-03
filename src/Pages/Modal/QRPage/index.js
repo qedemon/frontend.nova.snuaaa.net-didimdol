@@ -12,24 +12,25 @@ const types = [
 ]
 
 async function getQRURL(type){
-    const targetURL = await (
+    const authenticationId = await (
         async (type)=>{
             if(type==="가입하기"){
-                return "https://didimdol.nova.snuaaa.net/"
+                return "register"
             }
             const {data} = await request.get(`qrAuthentication/acquireQRAuthentication/${type}`);
             if(data && data.qrAuthentication){
                 const {qrAuthentication} = data;
-                if(qrAuthentication?._id){
-                    return `https://nova.snuaaa.net:9891/LogQRAuthentication/${qrAuthentication._id}`;
-                }
+                return qrAuthentication?._id;
             }
         }
-    )(type)
-    if(targetURL){
-        console.log(targetURL);
-        return `https://chart.apis.google.com/chart?cht=qr&chs=250x250&chl=${targetURL}`;
-    }
+    )(type);
+    return await (
+        async (authenticationId)=>{
+            const {data} = await request.get(`qrAuthentication/getQRImage/${authenticationId}`);
+            console.log(data?.targetURL);
+            return data?.dataURL;
+        }
+    )(authenticationId);
 }
 
 function QRPage({...props}){

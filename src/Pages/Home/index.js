@@ -95,30 +95,35 @@ function Home({userInfoOpen, ...props}){
                 <TitleMessage>별의 세계로 떠나 볼까요?</TitleMessage>
                 <LinkMessage>AAA 2024 신입생 가입하기</LinkMessage>
                 <MenuContainer>
-                    <Link to="/Register">
-                        <LaunchButton>가입하기</LaunchButton>
-                    </Link>
-                    <LaunchButton onClick={openUserInfo}>가입번호 조회</LaunchButton>
-                    {
-                        auth?.userInfo?.isStaff?
-                        (
-                            <>
-                                <Link to="/Admin">
-                                    <LaunchButton>가입 현황</LaunchButton>
-                                </Link>
-                                <LaunchButton onClick={openQR}>QR코드 생성</LaunchButton>
-                            </>
-                        )
-                        :null
-                    }
                     {
                         auth?.userInfo?
-                            (
+                        (
+                            <>
+                                <LaunchButton onClick={openUserInfo}>가입번호 조회</LaunchButton>
+                                {
+                                    auth?.userInfo?.isStaff?
+                                    (
+                                        <>
+                                            <Link to="/Admin">
+                                                <LaunchButton>가입 현황</LaunchButton>
+                                            </Link>
+                                            <LaunchButton onClick={openQR}>QR코드 생성</LaunchButton>
+                                        </>
+                                    ):
+                                    null
+                                }
                                 <LaunchButton onClick={logout}>로그아웃</LaunchButton>
-                            ):
-                            (
+                            </>
+                        )
+                        :
+                        (
+                            <>
+                                <Link to="/Register">
+                                    <LaunchButton>가입하기</LaunchButton>
+                                </Link>
                                 <LaunchButton onClick={login}>로그인</LaunchButton>
-                            )
+                            </>
+                        )
                     }
                 </MenuContainer>
                 
