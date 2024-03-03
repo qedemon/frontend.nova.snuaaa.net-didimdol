@@ -40,8 +40,8 @@ function MembersInfo({...props}){
         []
     )
     const onChange = useCallback(
-        (id, checked)=>{
-            dataChanged.current.set(id, {paid: checked});
+        (id, key, checked)=>{
+            dataChanged.current.set(id, {[key]: checked});
         },
         [dataChanged]
     );

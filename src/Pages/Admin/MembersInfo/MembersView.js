@@ -1,19 +1,41 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { MembersViewTable } from "./Components";
 import request from "../../../Utility/Connection";
 
 function MembersView({members=[], onChange}){
+    const [membersState, setMembersState] = useState(members);
     const onCheckBoxChanged = useCallback(
         (typeof(onChange)==="function")?
-            (id)=>(e)=>{
-                onChange(id, e.target.checked);
+            (id, key)=>(e)=>{
+                onChange(id, key, e.target.checked);
             }:
             (_)=>(e)=>{
 
             }
         ,
         [onChange]
+    );
+    const onCheckBoxClicked = useCallback(
+        (index, key)=>(e)=>{
+            setMembersState(
+                [
+                    ...membersState.slice(0, index),
+                    {
+                        ...membersState[index],
+                        [key]: e.target.checked
+                    },
+                    ...membersState.slice(index+1)
+                ]
+            );
+        },
     )
+    useEffect(
+        ()=>{
+            setMembersState(members);
+        },
+        [members]
+    );
+
     return (
         <MembersViewTable>
             <tbody>
@@ -30,7 +52,7 @@ function MembersView({members=[], onChange}){
                     <th>입금자명</th>
                 </tr>
                 {
-                    members.map(
+                    membersState.map(
                         ({aaaNo, name, id, mobile, email, course, schoolNo, major, paid, depositor}, index)=>{
                             return (
                                 <tr key={index}>
@@ -43,7 +65,7 @@ function MembersView({members=[], onChange}){
                                     <td>{schoolNo}</td>
                                     <td>{major}</td>
                                     <td>
-                                        <input type="checkbox" defaultChecked={paid} onChange={onCheckBoxChanged(id)}/>
+                                        <input type="checkbox" checked={paid} onClick={onCheckBoxClicked(index, "paid")} onChange={onCheckBoxChanged(id, "paid")} title=""/>
                                     </td>
                                     <td>{depositor}</td>
                                 </tr>
