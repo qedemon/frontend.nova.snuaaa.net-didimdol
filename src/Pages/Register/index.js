@@ -35,7 +35,7 @@ function Register(props){
                             ()=>{
                                 resolve(true);
                             },
-                            250
+                            2500
                         )
                     }
                 );
