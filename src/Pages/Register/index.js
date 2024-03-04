@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useRef } from "react";
+import React, { useCallback, useContext, useEffect, useRef } from "react";
 import { Background } from "./Components";
 import { LaunchButton, RocketContentContainer } from "../../Components"
 import {Form} from "../../Components";
@@ -6,9 +6,9 @@ import FormSchema from "./FormSchema";
 import {useContext as useAuth} from "../../Context/Auth";
 import {useContext as useModalController} from "../../Context/Modal";
 import DepositPage from "./DepositPage";
-import DepositSubmitPage from "./DepositSubmitPage";
 import { useNavigate } from "react-router-dom";
 import request from "../../Utility/Connection";
+import { WelcomePage } from "../Modal";
 
 function Register(props){
     const navigate = useNavigate();
@@ -23,7 +23,22 @@ function Register(props){
                 if(error){
                     throw error
                 }
-                alert("가입되었습니다.");
+                modalController.setChildren(
+                    {
+                        component: WelcomePage
+                    }
+                );
+                modalController.open();
+                await new Promise(
+                    (resolve)=>{
+                        setTimeout(
+                            ()=>{
+                                resolve(true);
+                            },
+                            250
+                        )
+                    }
+                );
                 modalController.close();
                 auth.setToken(token);
                 navigate("/UserInfo");
@@ -31,7 +46,6 @@ function Register(props){
             catch(error){
                 console.log(error);
                 alert("가입 실패");
-                modalController.close();
                 navigate("/Register");
             }
         },
