@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, {forwardRef} from "react";
+import React, {forwardRef, useCallback} from "react";
 import {css} from "@emotion/react";
 
 const MembersInfoContainerCSS = css`
@@ -53,3 +53,32 @@ function MembersViewTable({children, ...props}){
 }
 
 export {MembersViewTable}
+
+const GoogleSheetFileViewCSS = css`
+    display: flex;
+    gap: 16px;
+    &>div{
+        width: 280px;
+        overflow: hidden;
+        border: 1px solid black;
+        padding: 4px 8px;
+    }
+
+`
+function GoogleSheetFileView({sheetPath, ...props}){
+    const copy = useCallback(
+        ()=>{
+            navigator.clipboard.writeText(sheetPath)
+        }
+    )
+    return (
+        <div css={GoogleSheetFileViewCSS}>
+            <div>
+                <a href={sheetPath} target="_blank">{sheetPath}</a>
+            </div>
+            <button onClick={copy}>복사하기</button>
+        </div>
+        
+    )
+}
+export {GoogleSheetFileView};

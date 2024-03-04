@@ -1,10 +1,14 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { MembersInfoContainer, MembersInfoHeader } from "./Components";
+import { GoogleSheetFileView, MembersInfoContainer, MembersInfoHeader } from "./Components";
 import MembersView from "./MembersView";
 import request from "../../../Utility/Connection";
 
 async function loadMembers(){
     return await request.get("/user/getAllUsers");
+}
+
+async function updateSheet(){
+    return await request.get("/googleSheet/loadAllUsers");
 }
 
 async function updateMembers(dataToUpdate){
@@ -13,6 +17,7 @@ async function updateMembers(dataToUpdate){
 
 function MembersInfo({...props}){
     const [message, setMessage] = useState("");
+    const [sheetURL, setSheetURL] = useState("");
     const [members, setMembers] = useState([]);
     const dataChanged = useRef(new Map());
 
@@ -25,13 +30,23 @@ function MembersInfo({...props}){
                         console.log(error);
                         return;
                     }
+
+                    updateSheet().then(
+                        ({data: {url, error}})=>{
+                            if(error){
+                                console.log(error);
+                            }
+                            setSheetURL(url);
+                        }
+                    )
+
                     dataChanged.current = new Map();
                     setMembers(users??[]);
                     setMessage("불러오기 완료")
                 }
             )
         },
-        [setMembers, setMessage, dataChanged]
+        [setMembers, setMessage, dataChanged, setSheetURL]
     )
     useEffect(
         ()=>{
@@ -75,6 +90,7 @@ function MembersInfo({...props}){
                 <button onClick={load}>Load</button>
                 <button onClick={onSave}>Save</button>
                 <label>{message}</label>
+                <GoogleSheetFileView sheetPath={sheetURL}></GoogleSheetFileView>
             </MembersInfoHeader>
             <MembersView members={members} onChange={onChange}></MembersView>
         </MembersInfoContainer>

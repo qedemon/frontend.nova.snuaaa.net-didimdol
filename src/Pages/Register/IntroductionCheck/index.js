@@ -3,7 +3,7 @@ import { CheckBox } from "../../../Components";
 import { IntroductionCheckContainer } from "./Components";
 
 const IntroductionCheck = forwardRef(
-    ({valid, onChange, className}, ref)=>{
+    ({label, valid, onChange, className}, ref)=>{
         const delegateRef = useRef({value: false});
         const checkBoxRef = useRef();
 
@@ -31,7 +31,7 @@ const IntroductionCheck = forwardRef(
 
         return (
             <IntroductionCheckContainer className={className}>
-                <CheckBox ref={checkBoxRef} onChange={onCheckChange} valid={valid} label="자기소개서는 작성하셨나요?"/>
+                <CheckBox ref={checkBoxRef} onChange={onCheckChange} valid={valid} label={label}/>
             </IntroductionCheckContainer>
         )
     }

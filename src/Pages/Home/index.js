@@ -101,7 +101,7 @@ function Home({userInfoOpen, ...props}){
                             <>
                                 <LaunchButton onClick={openUserInfo}>가입번호 조회</LaunchButton>
                                 {
-                                    auth?.userInfo?.isStaff?
+                                    auth?.userInfo?.isAdmin?
                                     (
                                         <>
                                             <Link to="/Admin">

@@ -330,5 +330,24 @@ export default (context)=>[
                 message: "개인 정보 활용 동의에 체크해 주세요."
             }
         },
-    }
+    },
+    {
+        key: "introduction",
+        label: "자기소개서 작성",
+        component: IntroductionCheck,
+        property: {
+            label: "가입 하신 후, 간단한 자기소개서를 작성 해주세요."
+        },
+        validate: ({value})=>{
+            const result = value??false;
+            return result?
+                {
+                    result
+                }:
+                {
+                    result,
+                    message: "동아리 활동을 위한 기본 자료로 활용됩니다. 꼭 작성 부탁드려요!"
+                }
+        }
+    },
 ]
