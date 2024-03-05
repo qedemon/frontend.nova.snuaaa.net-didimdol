@@ -93,7 +93,7 @@ function Home({userInfoOpen, ...props}){
             <ContentContainer>
                 <Rocket/>
                 <TitleMessage>별의 세계로 떠나 볼까요?</TitleMessage>
-                <LinkMessage>AAA 2024 신입생 가입하기</LinkMessage>
+                <LinkMessage>{`AAA 2024 신입생 가입하기${process.env.REACT_APP_TEST?" 테스트":""}`}</LinkMessage>
                 <MenuContainer>
                     {
                         auth?.userInfo?
