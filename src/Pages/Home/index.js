@@ -88,6 +88,12 @@ function Home({userInfoOpen, ...props}){
             }
         },
     )
+    useEffect(
+        ()=>{
+            console.log(`last edit: ${process.env.REACT_APP_LAST_EDIT}`);
+        },
+        []
+    )
     return (
         <Background>
             <ContentContainer>
