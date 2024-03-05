@@ -34,7 +34,9 @@ function LogQRAuthentication(props){
                         const {qrAuthenticationLog} = data;
                         if(qrAuthenticationLog?.message){
                             alert(qrAuthenticationLog.message);
-                            navigate("/");
+                            setTimeout(()=>{
+                                navigate("/");
+                            })
                             return;
                         }
                     }
