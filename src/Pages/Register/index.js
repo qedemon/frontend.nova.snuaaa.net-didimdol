@@ -85,26 +85,39 @@ function Register(props){
         }:
         ()=>{
             setSubmitPending(true);
+            setTimeout(
+                ()=>{
+                    setSubmitPending(false);
+                }, 
+                2500)
+            ;
             (
                 async ()=>{
-                    const formResult = await formController.current.getValues({requireSetMessage: true, requireSetValidation: true});
-                    const [values, validation] = Object.entries(formResult)
-                    .reduce(
-                        ([data, validationResult], [key, {value, validation, asyncValidation}])=>{
-                            return [
-                                {
-                                    ...data,
-                                    [key]: value
-                                },
-                                validationResult && validation.result && asyncValidation.result
-                            ]
-                        },
-                        [{}, true]
-                    );
-                    if(validation){
-                        await register(values);
+                    try{
+                        const formResult = await formController.current.getValues({requireSetMessage: true, requireSetValidation: true});
+                        const [values, validation] = Object.entries(formResult)
+                        .reduce(
+                            ([data, validationResult], [key, {value, validation, asyncValidation}])=>{
+                                return [
+                                    {
+                                        ...data,
+                                        [key]: value
+                                    },
+                                    validationResult && validation.result && asyncValidation.result
+                                ]
+                            },
+                            [{}, true]
+                        );
+                        if(validation){
+                            await register(values);
+                        }
                     }
-                    setSubmitPending(false);
+                    catch(error){
+                        console.log(error);
+                    }
+                    finally{
+                        setSubmitPending(false);
+                    }
                 }
             )();
         },
