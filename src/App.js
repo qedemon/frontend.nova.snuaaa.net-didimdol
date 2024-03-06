@@ -8,6 +8,7 @@ import StaffLogin from './Pages/StaffLogin';
 import Register from './Pages/Register';
 import Admin from './Pages/Admin';
 import LogQRAuthentication from './Pages/LogQRAuthentication';
+import ChangePassword from './Pages/ChangePassword';
 
 class App extends Component {
   render() {
@@ -23,6 +24,7 @@ class App extends Component {
                 <Route path="/UserInfo" element={<Home userInfoOpen={true}/>}/>
                 <Route path="/Admin" element={<Admin/>}/>
                 <Route path="/LogQRAuthentication/:authenticationId/" element={<LogQRAuthentication/>}/>
+                <Route path="/changePassword/:passwordResetId" element={<ChangePassword/>}/>
               </Routes>
             </Main>
           </div>
