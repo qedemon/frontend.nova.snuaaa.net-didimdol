@@ -22,7 +22,6 @@ export default [
         },
         handlers: {
             onSideButtonClick: async ({key, value}, controller)=>{
-                const {available, message} = await checkId(value);
                 controller.setMessage(key, message);
                 controller.setField(key, "validation", available);
             }
