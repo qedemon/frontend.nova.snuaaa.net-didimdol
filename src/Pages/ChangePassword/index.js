@@ -1,18 +1,62 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import {useContext as useAuth} from "../../Context/Auth";
 import {useContext as useModalController} from "../../Context/Modal";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Background, ChangePasswordContainer, ChangePasswordFormContainer, LogQRAuthenticationContainer } from "./Components";
 import request from "../../Utility/Connection";
-import { LoginPage } from "../Modal";
 import { Form, Input, LaunchButton } from "../../Components";
 import FormSchema from "./FormSchema";
 
 function ChangePassword(props){
-    const modalController = useModalController().current;
+    const navigate = useNavigate();
     const formController = useRef();
     const params = useParams();
     const passwordResetId = params?.passwordResetId;
+
+    const [pending, setPending] = useState(false);
+
+    const onSubmit = useCallback(
+        (log, errorLog)=>async ()=>{
+            const values = await formController.current.getValues(
+                {
+                    requireSetMessage: true, 
+                    requireSetValidation: true
+                }
+            );
+            if(
+                !Object.values(values).every(
+                    ({validation, asyncValidation})=>(validation.result && asyncValidation.result)
+                )
+            ){
+                return;
+            }
+            setPending(true);
+            try{
+                const response = await request.post("/user/changePassword", 
+                    {
+                        id: values.id.value,
+                        newPassword: values.password.value,
+                        uuid: passwordResetId
+                    }
+                );
+                const {result, user, error} = response.data;
+                if(result===0){
+                    log(`${user.name}에 대한 비밀번호를 성공적으로 변경하였습니다.`);
+                    navigate("/");
+                }
+                else{
+                    log(`비밀번호 변경 실패: ${error}`);
+                }
+            }
+            catch(error){
+                errorLog(error);
+            }
+            finally{
+                setPending(false);
+            }
+        }
+        ,
+        [pending, setPending, passwordResetId]
+    )
 
     return (
         <Background>
@@ -21,7 +65,7 @@ function ChangePassword(props){
                 <ChangePasswordFormContainer>
                     <Form ref={formController} formSchema={FormSchema}/>
                 </ChangePasswordFormContainer>
-                <LaunchButton>비밀번호 변경</LaunchButton>
+                <LaunchButton onClick={onSubmit(alert, console.log)} disabled={pending}>{pending?"변경 중":"비밀번호 변경"}</LaunchButton>
             </ChangePasswordContainer>
         </Background>
     )
