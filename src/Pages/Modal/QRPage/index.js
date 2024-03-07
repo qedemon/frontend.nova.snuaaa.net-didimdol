@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useContext as useModalController } from "../../../Context/Modal";
 import { LaunchButton } from "../../../Components";
 import { MessageBoxBody, MessageBoxContainer, MessageBoxFooter, MessageBoxHeader } from "./Components/MessageBox";
@@ -12,25 +12,35 @@ const types = [
 ]
 
 async function getQRURL(type){
-    const authenticationId = await (
+    const {authenticationId, expiredAt} = await (
         async (type)=>{
             if(type==="가입하기"){
-                return "register"
+                return {
+                    authenticationId: "register",
+                    expiredAt: null
+                }
             }
             const {data} = await request.get(`qrAuthentication/acquireQRAuthentication/${type}`);
             if(data && data.qrAuthentication){
                 const {qrAuthentication} = data;
-                return qrAuthentication?._id;
+                return {
+                    authenticationId: qrAuthentication?._id,
+                    expiredAt: qrAuthentication?.expiredAt?new Date(qrAuthentication.expiredAt):null
+                }
             }
         }
     )(type);
-    return await (
-        async (authenticationId)=>{
-            const {data} = await request.get(`qrAuthentication/getQRImage/${authenticationId}`);
-            console.log(data?.targetURL);
-            return data?.dataURL;
-        }
-    )(authenticationId);
+
+    return {
+        dataURL: await (
+            async (authenticationId)=>{
+                const {data} = await request.get(`qrAuthentication/getQRImage/${authenticationId}`);
+                console.log(data?.targetURL);
+                return data?.dataURL;
+            }
+        )(authenticationId),
+        timeToReload: expiredAt?(expiredAt.getTime()-Date.now())/2+10000:null
+    }
 }
 
 function QRPage({...props}){
@@ -44,6 +54,8 @@ function QRPage({...props}){
 
     const [typeIndex, setTypeIndex] = useState(0);
     const [qrImageURL, setQRImageURL] = useState();
+    const [timeToReload, setTimeToReload] = useState(null);
+    const timer = useRef(null);
 
     const changeIndex = useCallback(
         (add)=>()=>{
@@ -64,17 +76,75 @@ function QRPage({...props}){
         [setTypeIndex]
     );
 
-    const onGenerateClick = useCallback(
+    const resetTimeToReload = useCallback(
+        (timeToReload)=>{
+            if(timer.current){
+                clearInterval(timer.current);
+                timer.current = null;
+            }
+
+            setTimeToReload(timeToReload);
+
+            if(timeToReload!==null){
+                if(timeToReload>0){
+                    timer.current = setInterval(
+                        ()=>{
+                            setTimeToReload((timeToReload)=>timeToReload-1000)
+                        }
+                        ,1000
+                    )
+                }
+            }
+        },
+        [setTimeToReload, timer]
+    )
+
+    const generateQR = useCallback(
         ()=>{
             (
                 async ()=>{
-                    const qrImageURL = await getQRURL(types[typeIndex]);
+                    const {dataURL: qrImageURL, timeToReload} = await getQRURL(types[typeIndex]);
                     setQRImageURL(qrImageURL);
+                    resetTimeToReload(timeToReload);
                 }
             )();
         },
-        [typeIndex, setQRImageURL]
+        [typeIndex, setQRImageURL, resetTimeToReload]
     )
+
+    useEffect(
+        ()=>{
+            resetTimeToReload(null);
+        },
+        [typeIndex]
+    )
+    useEffect(
+        ()=>{
+            if(timeToReload<=0){
+                generateQR();
+            }
+        },
+        [timeToReload]
+    )
+
+    const formattedTimeString = (
+        (milliseconds)=>{
+            if(milliseconds===null){
+                return "";
+            }
+            let seconds = Math.floor(milliseconds / 1000);
+    
+            // 초를 분과 초로 변환
+            let minutes = Math.floor(seconds / 60);
+            seconds = seconds % 60;
+            
+            // 분과 초가 한 자리수일 경우 앞에 '0'을 추가
+            minutes = minutes.toString().padStart(2, '0');
+            seconds = seconds.toString().padStart(2, '0');
+            
+            return `${minutes}:${seconds}`;
+        }
+    )(timeToReload);
 
     return (
         <MessageBoxContainer onClose={onClose}>
@@ -91,9 +161,10 @@ function QRPage({...props}){
                         (<img src={qrImageURL}/>):
                         null
                 }
+                <p className="label">{formattedTimeString}</p>
             </MessageBoxBody>
             <MessageBoxFooter>
-                <LaunchButton onClick={onGenerateClick}>
+                <LaunchButton onClick={generateQR}>
                     QR 생성하기
                 </LaunchButton>
             </MessageBoxFooter>

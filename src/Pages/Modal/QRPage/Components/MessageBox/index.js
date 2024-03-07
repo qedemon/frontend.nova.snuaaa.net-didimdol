@@ -95,7 +95,6 @@ const MessageBoxBodyCSS = css`
         line-height: 18px;
         letter-spacing: 0em;
         text-align: center;
-        text-decoration: underline;
         color: rgba(102, 102, 102, 1);
     }
     margin-bottom: 16px;
