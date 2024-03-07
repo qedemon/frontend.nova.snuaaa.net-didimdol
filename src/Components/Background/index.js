@@ -8,11 +8,11 @@ const BackgroundCSS = css`
     width: 100%;
     height: 100%;
     padding: 0px;
+    background: rgba(245, 224, 213, 1);
     &>.background{
         position: absolute;
         width: 100%;
         height: 100%;
-        background: rgba(245, 224, 213, 1);
         &>*{
             position: absolute;
         }
@@ -89,7 +89,7 @@ const Positions = (
     }
 )();
 
-function Background(Decorations){
+function Background(Decorations, css){
     const [upperDecorations, lowerDecorations] = [Vertical.Upper, Vertical.Lower].map(
         (vPos)=>(Decorations??[])
         .filter(
@@ -99,7 +99,7 @@ function Background(Decorations){
     return ({children})=>{
         return (
             <div css={BackgroundCSS}>
-                <div className="background">
+                <div css={css} className="background">
                 {
                     Decorations.map(
                         ({position:{className}, components: C}, index)=>{

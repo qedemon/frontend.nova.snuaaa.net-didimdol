@@ -18,6 +18,10 @@ const LaunchButtonCSS = css`
     color: rgba(255, 255, 255, 1);
 
     cursor: pointer;
+
+    &.blue{
+        background: rgba(118, 128, 226, 1);
+    }
 `;
 function LaunchButton({children, ...props}){
     return (

@@ -28,6 +28,7 @@ function LoginPage({returnPath="/", ...props}){
                     if(data?.authenticated){
                         const {token} = data;
                         setLoginState("로그인 완료");
+                        controller.close();
                         setTimeout(()=>{
                             auth.setToken(token);
                             navigate(returnPath);

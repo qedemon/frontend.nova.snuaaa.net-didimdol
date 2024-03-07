@@ -10,12 +10,12 @@ import { LaunchButton } from "../../Components";
 function LogQRAuthentication(props){
     const auth = useAuth();
     const modalController = useModalController().current;
-    const navigate = useNavigate();
     const params = useParams();
     const authenticationId = params?.authenticationId;
     const [qrAuthentication, setQRAuthentication] = useState()
     useEffect(
         ()=>{
+            console.log(auth);
             if(!auth?.authorized){
                 modalController.setChildren(
                     {
@@ -73,7 +73,7 @@ function LogQRAuthentication(props){
                     qrAuthentication?
                         (
                             <>
-                                <h2>{`${auth.userInfo.name} (${auth.userInfo.major})`}</h2>
+                                <h2><span>{auth.userInfo.name}</span> {`(${auth.userInfo.major})`}</h2>
                                 <h1>{qrAuthentication.context.title}</h1>
                             </>
                         ):
@@ -85,9 +85,9 @@ function LogQRAuthentication(props){
                                 <h1>QR 정보를 불러우는 중.</h1>
                             )
                 }
-                <LaunchButton onClick = {logQRAuthentication}>참석하기</LaunchButton>
+                <LaunchButton onClick = {logQRAuthentication} className="blue">참석하기</LaunchButton>
                 <Link to="/">
-                    <LaunchButton>홈으로</LaunchButton>
+                    <LaunchButton className="blue">홈으로</LaunchButton>
                 </Link>
             </LogQRAuthenticationContainer>
         </Background>
