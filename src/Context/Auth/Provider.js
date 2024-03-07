@@ -9,8 +9,13 @@ function Provider({children}){
         ()=>{
             (
                 async ()=>{
-                    const {data: auth} = await request.get("/user/whoAmI");
-                    setAuth(auth);
+                    try{
+                        const {data: auth} = await request.get("/user/whoAmI");
+                        setAuth(auth);
+                    }
+                    catch{
+                        setAuth({authorized: false});
+                    }
                 }
             )()
         }
