@@ -6,6 +6,6 @@ export function getCookie(key) {
 export function setCookie(key, value, expires=null){
     const cookieString = `${key}=${value}; domain=snuaaa.net; path=/; ${expires?`expires=${expires};`:``}`;
     const cookieStringLocal = `${key}=${value}; path=/; ${expires?`expires=${expires};`:``}`;
-    document.cookie=cookieString;
+    //document.cookie=cookieString;
     document.cookie=cookieStringLocal;
 }
