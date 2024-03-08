@@ -131,7 +131,7 @@ function Home({userInfoOpen, ...props}){
                             </>
                         )
                     }
-                    <Link to="https://nova.snuaaa.net:9895/">
+                    <Link to={process.env.REACT_APP_DIDIMDOL_FRONTEND}>
                         <LaunchButton className="blue">디딤돌 신청하기</LaunchButton>
                     </Link>
                 </MenuContainer>
