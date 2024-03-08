@@ -66,6 +66,10 @@ const BackgroundCSS = css`
     }
 `;
 
+const DefaultCSS = css`
+    background-color: rgb(245, 224, 213);
+`
+
 const Positions = (
     ()=>{
         const Positions = {};
@@ -99,7 +103,7 @@ function Background(Decorations, css){
     return ({children})=>{
         return (
             <div css={BackgroundCSS}>
-                <div css={css} className="background">
+                <div css={css||DefaultCSS} className="background">
                 {
                     Decorations.map(
                         ({position:{className}, components: C}, index)=>{
